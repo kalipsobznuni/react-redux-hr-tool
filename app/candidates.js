@@ -6,3 +6,5 @@ const Candidates =[
   {name:"Hakob Paronyan", profession: "Engineer", status:"Shortlisted"},
   {name:"Hillary Banks", profession: "Designer", status:"Accepted"},
 ]
+
+export default Candidates;
