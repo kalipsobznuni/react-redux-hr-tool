@@ -1,6 +1,7 @@
 import React from 'react';
+import {connect} from 'react-redux';
 
-export default class List extends React.Component {
+class List extends React.Component {
   render() {
     const {listName, listElements} = this.props;
     const renderElements = listElements.map((element, counter) => {
@@ -18,3 +19,13 @@ export default class List extends React.Component {
     )
   }
 }
+
+function mapStateToProps(state) {
+  return (
+    {
+      listElements: state.members
+    }
+  )
+}
+
+export default connect(mapStateToProps)(List);

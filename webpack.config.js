@@ -5,7 +5,7 @@ const DEV = path.resolve(__dirname+"/app");
 const OUTPUT = path.resolve(__dirname+"/public");
 
 const config = {
-  entry: DEV + "/App.js",
+  entry: DEV + "/index.js",
   output: {
     path: OUTPUT,
     filename: "bundle.js"
