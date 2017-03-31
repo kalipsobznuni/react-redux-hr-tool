@@ -1,8 +1,8 @@
 import {combineReducers} from 'redux';
-import memberReducers from './reducer-members';
+import memberReducers from './reducer-candidates';
 
 const allReducers = combineReducers({
-  members: memberReducers
+  candidates: memberReducers
 });
 
 export default allReducers;
