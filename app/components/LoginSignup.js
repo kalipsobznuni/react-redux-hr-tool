@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class LoginSignup extends React.PureComponent {
+class LoginSignup extends React.PureComponent {
   logIn = () => {
     firebase.auth().signInWithEmailAndPassword(this.email.value, this.password.value).catch(error => {
       console.log(error);
@@ -8,7 +8,7 @@ export default class LoginSignup extends React.PureComponent {
   }
   render() {
     return(
-      <div className="main">
+      <div className="logsing-body">
         <div className="container">
           <div className="login-signup">
             <input ref={email => this.email = email} placeholder="Email"></input>
@@ -21,3 +21,5 @@ export default class LoginSignup extends React.PureComponent {
     )
   }
 }
+
+export default LoginSignup;
