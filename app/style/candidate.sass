@@ -1,17 +1,37 @@
-$border-color: #3A4E82
-
-.all-candidates
+$blue: #3A4E82
+.candidates-main
   width: 80%
-  margin: 50px auto
-  border-top: 3px solid $border-color
-  border-left: 3px solid $border-color
-  .candidate
-    margin: auto
-    display: flex
-    align-items: center
-    div
-      padding: 10px
-      font-size: 40px
-      width: (100% / 3)
-      border-bottom: 3px solid $border-color
-      border-right: 3px solid $border-color
+  margin: auto
+  .all-candidates
+    margin: 50px auto
+    border-top: 3px solid $blue
+    border-left: 3px solid $blue
+    .header
+      background-color: grey
+      position: sticky
+    .candidate
+      display: flex
+      align-items: center
+      div
+        padding: 10px
+        font-size: 40px
+        width: (100% / 3)
+        border-bottom: 3px solid $blue
+        border-right: 3px solid $blue
+  .dropdown
+    .dropbtn
+      background-color: #4CAF50
+      color: white
+      padding: 16px
+      font-size: 16px
+      border: none
+      cursor: pointer
+      &:hover
+        background-color: #3e8e41;
+    .dropdown-content
+      background-color: #f9f9f9
+      min-width: 160px
+      overflow: auto
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2)
+    .dontshow
+      display: none
