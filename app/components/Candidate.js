@@ -1,41 +1,55 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import MenuItem from 'material-ui/MenuItem';
+injectTapEventPlugin();
 
 class Candidates extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       candidates: this.props.candidates,
+      dropDownValue: 0,
     }
+  }
+  handleDropDownValueChange = (event, index, dropDownValue) => {
+    this.setState({dropDownValue})
   }
   render() {
     return(
-      <Table selectable={false}>
-        <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-          <TableRow>
-            <TableHeaderColumn>Name</TableHeaderColumn>
-            <TableHeaderColumn>Profession</TableHeaderColumn>
-            <TableHeaderColumn>Status</TableHeaderColumn>
-          </TableRow>
-        </TableHeader>
-        <TableBody displayRowCheckbox={false}>
-          {this.state.candidates.map((candidate, index) => {
-            return(
-              <TableRow key={index}>
-                <TableRowColumn>{candidate.name}</TableRowColumn>
-                <TableRowColumn>{candidate.profession}</TableRowColumn>
-                <TableRowColumn>{candidate.status}</TableRowColumn>
-              </TableRow>
-            )
-          })}
-        </TableBody>
-      </Table>
+      <div>
+        <DropDownMenu value={this.state.dropDownValue} onChange={this.handleDropDownValueChange}>
+          <MenuItem value={0} primaryText="Filter" />
+          <MenuItem value={1} primaryText="Name" />
+          <MenuItem value={2} primaryText="Profession" />
+          <MenuItem value={3} primaryText="Status" />
+        </DropDownMenu>
+        <Table selectable={false}>
+          <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+            <TableRow>
+              <TableHeaderColumn>Name</TableHeaderColumn>
+              <TableHeaderColumn>Profession</TableHeaderColumn>
+              <TableHeaderColumn>Status</TableHeaderColumn>
+            </TableRow>
+          </TableHeader>
+          <TableBody displayRowCheckbox={false}>
+            {this.state.candidates.map((candidate, index) => {
+              return(
+                <TableRow key={index}>
+                  <TableRowColumn>{candidate.name}</TableRowColumn>
+                  <TableRowColumn>{candidate.profession}</TableRowColumn>
+                  <TableRowColumn>{candidate.status}</TableRowColumn>
+                </TableRow>
+              )
+            })}
+          </TableBody>
+        </Table>
+      </div>
     )
   }
 }
-
-
 
 function mapStateToProps(state) {
   return (
