@@ -5,11 +5,11 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
-injectTapEventPlugin();
 
 class Candidates extends React.Component {
   constructor(props) {
     super(props);
+    injectTapEventPlugin();
     this.state = {
       candidates: this.props.candidates,
       dropDownValue: 0,
@@ -50,7 +50,7 @@ class Candidates extends React.Component {
           <MenuItem value={2} primaryText="Profession" />
           <MenuItem value={3} primaryText="Status" />
         </DropDownMenu>
-        <Table selectable={false}>
+        <Table>
           <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
             <TableRow>
               <TableHeaderColumn>Name</TableHeaderColumn>
