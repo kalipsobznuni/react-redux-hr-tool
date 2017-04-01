@@ -1,55 +1,41 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 
 class Candidates extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      filter: "",
-      showDropDown: false
+      candidates: this.props.candidates,
     }
   }
   render() {
-    const renderCandidates = this.props.candidates.map((currCandidate, counter) => {
-      return (
-        <Candidate key={counter} info={currCandidate} />
-      )
-    });
-    const dropDown = () => {
-      return (
-        <div className="dropdown">
-          <button onClick={this.dropDown} className="dropbtn">Dropdown</button>
-          <div id="myDropdown" className="dropdown-content">
-          </div>
-        </div>
-      )
-    }
-    return (
-      <div className="candidates-main">
-        {dropDown()}
-        <div className="all-candidates">
-          <div className="candidate header">
-            <div>Name</div>
-            <div>Profession</div>
-            <div>Status</div>
-          </div>
-          {renderCandidates}
-        </div>
-      </div>
+    return(
+      <Table selectable={false}>
+        <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+          <TableRow>
+            <TableHeaderColumn>Name</TableHeaderColumn>
+            <TableHeaderColumn>Profession</TableHeaderColumn>
+            <TableHeaderColumn>Status</TableHeaderColumn>
+          </TableRow>
+        </TableHeader>
+        <TableBody displayRowCheckbox={false}>
+          {this.state.candidates.map((candidate, index) => {
+            return(
+              <TableRow key={index}>
+                <TableRowColumn>{candidate.name}</TableRowColumn>
+                <TableRowColumn>{candidate.profession}</TableRowColumn>
+                <TableRowColumn>{candidate.status}</TableRowColumn>
+              </TableRow>
+            )
+          })}
+        </TableBody>
+      </Table>
     )
   }
 }
 
-function Candidate(props) {
-    const {info} = props;
-    return (
-      <div className="candidate">
-        <div className="name">{info.name}</div>
-        <div className="profession">{info.profession}</div>
-        <div className="status">{info.status}</div>
-      </div>
-    )
-}
+
 
 function mapStateToProps(state) {
   return (

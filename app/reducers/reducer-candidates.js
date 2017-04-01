@@ -15,7 +15,7 @@ export default function() {
     {
       id: 2,
       name: "Maria Sharapova",
-      profession: "Designerr",
+      profession: "Designer",
       status: "Accepted"
     },
     {
