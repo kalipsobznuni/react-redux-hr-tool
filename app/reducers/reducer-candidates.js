@@ -22,7 +22,7 @@ export default function() {
       id: 3,
       name: "Erik Davtyan",
       profession: "Developer",
-      status: "Denied"
+      status: "Rejected"
     },
     {
       id: 4,

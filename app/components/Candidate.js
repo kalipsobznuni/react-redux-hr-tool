@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import _ from 'lodash';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import DropDownMenu from 'material-ui/DropDownMenu';
@@ -15,7 +16,30 @@ class Candidates extends React.Component {
     }
   }
   handleDropDownValueChange = (event, index, dropDownValue) => {
-    this.setState({dropDownValue})
+    this.setState({dropDownValue});
+    this.filterListElements(dropDownValue);
+  }
+  filterListElements = (value) => {
+    let candidates =  this.state.candidates.slice();
+    const compareStatus = (a, b) => {
+      if (b.status === "Accepted" && a.status !== "Accepted" || b.status === "Shortlisted" && a.status === "Rejected") {
+        return 1;
+      }
+    };
+    switch (value) {
+      case 1:
+        candidates = _.sortBy(candidates, function(i) {return i.name});
+        break;
+      case 2:
+        candidates = _.sortBy(candidates, function(i) {return i.profession});
+        break;
+      case 3:
+        candidates = candidates.sort(compareStatus);
+        break;
+      default:
+        break;
+    }
+    this.setState({candidates});
   }
   render() {
     return(
