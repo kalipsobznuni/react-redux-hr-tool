@@ -8,6 +8,8 @@ import MenuItem from 'material-ui/MenuItem';
 import Drawer from 'material-ui/Drawer';
 import {List, ListItem} from 'material-ui/List';
 import Divider from 'material-ui/Divider';
+import RaisedButton from 'material-ui/RaisedButton'
+import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 
 class Candidates extends React.Component {
   constructor(props) {
@@ -18,6 +20,12 @@ class Candidates extends React.Component {
       dropDownValue: 0,
       selectedCandidateID: -1,
     }
+  }
+
+  saveCandidateStatus = (candidate, status) => {
+    const candidates = this.state.candidates.slice();
+    candidates[candidate.id].status = status;
+    this.setState({candidates});
   }
 
   selectedCandidateIDChange = (selectedCandidateID) => {
@@ -42,10 +50,10 @@ class Candidates extends React.Component {
     };
     switch (value) {
       case 1:
-        candidates = _.sortBy(candidates, function(i) {return i.name});
+        candidates = _.sortBy(candidates, i => i.name);
         break;
       case 2:
-        candidates = _.sortBy(candidates, function(i) {return i.profession});
+        candidates = _.sortBy(candidates, i => i.profession);
         break;
       case 3:
         candidates = candidates.sort(compareStatus);
@@ -57,7 +65,57 @@ class Candidates extends React.Component {
   }
 
   render() {
-    const candidate = _.find(this.state.candidates, {id: this.state.selectedCandidateID}) || 0;
+
+    const renderCandidateInfo = () => {
+      const candidate = _.find(this.state.candidates, {id: this.state.selectedCandidateID}) || 0;
+      const {name, profession, status} = candidate;
+      let changedStatus = status;
+      const changeStatus = e => changedStatus = e.target.value;
+      return (
+        <List>
+          <ListItem primaryText={name} style={{"fontWeight": "bold"}}/>
+          <Divider />
+          <ListItem primaryText={profession} />
+          <Divider />
+          <RadioButtonGroup
+            style={{"marginTop": "10px"}}
+            name="decideFuture"
+            valueSelected={status}
+          >
+            <RadioButton
+              style={{"marginTop": "5px"}}
+              value="Undecided"
+              label="Undecided"
+              onTouchTap={changeStatus}
+            />
+            <RadioButton
+              style={{"marginTop": "5px"}}
+              value="Accepted"
+              label="Accept"
+              onTouchTap={changeStatus}
+            />
+            <RadioButton
+              style={{"marginTop": "5px"}}
+              value="Shortlisted"
+              label="Shortlist"
+              onTouchTap={changeStatus}
+            />
+            <RadioButton
+              style={{"marginTop": "5px"}}
+              value="Rejected"
+              label="Reject"
+              onTouchTap={changeStatus}
+            />
+          </RadioButtonGroup>
+          <RaisedButton
+            style={{"marginTop": "10px", "width": "100%"}}
+            label="Save"
+            onTouchTap={() => this.saveCandidateStatus(candidate, changedStatus)}
+          />
+        </List>
+        );
+      }
+
     return(
       <div>
         <DropDownMenu value={this.state.dropDownValue} onChange={this.handleDropDownValueChange}>
@@ -66,7 +124,9 @@ class Candidates extends React.Component {
           <MenuItem value={2} primaryText="Profession" />
           <MenuItem value={3} primaryText="Status" />
         </DropDownMenu>
-        <Table style={{"width": "50%"}}>
+        <Table
+          style={{"width": "50%"}}
+        >
           <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
             <TableRow>
               <TableHeaderColumn>Name</TableHeaderColumn>
@@ -74,7 +134,10 @@ class Candidates extends React.Component {
               <TableHeaderColumn>Status</TableHeaderColumn>
             </TableRow>
           </TableHeader>
-          <TableBody displayRowCheckbox={false}>
+          <TableBody
+            displayRowCheckbox={false}
+            deselectOnClickaway={false}
+          >
             {this.state.candidates.map((candidate, index) => {
               return(
                 <TableRow
@@ -94,13 +157,11 @@ class Candidates extends React.Component {
           openSecondary={true}
           open={this.state.selectedCandidateID!=-1}
         >
-          <List>
-            <ListItem primaryText={candidate.name} style={{"fontWeight": "bold"}}/>
-            <Divider />
-            <ListItem primaryText={candidate.profession} />
-            <Divider />
-            <ListItem primaryText={candidate.status} />
-          </List>
+          {
+            this.state.selectedCandidateID!=-1 ?
+              renderCandidateInfo()
+              : null
+          }
         </Drawer>
       </div>
     )
