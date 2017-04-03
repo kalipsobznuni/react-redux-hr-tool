@@ -19,9 +19,13 @@ class Candidates extends React.Component {
     injectTapEventPlugin();
     this.state = {
       candidates: this.props.candidates,
-      dropDownValue: 0,
+      dropDownValue: 1,
       selectedCandidateID: -1,
     }
+  }
+
+  componentWillMount() {
+    this.filterListElements(1);
   }
 
   saveCandidateStatus = (candidateID, status) => {
@@ -119,7 +123,6 @@ class Candidates extends React.Component {
     return(
       <div>
         <DropDownMenu value={this.state.dropDownValue} onChange={this.handleDropDownValueChange}>
-          <MenuItem value={0} primaryText="Filter" />
           <MenuItem value={1} primaryText="Name" />
           <MenuItem value={2} primaryText="Profession" />
           <MenuItem value={3} primaryText="Status" />
