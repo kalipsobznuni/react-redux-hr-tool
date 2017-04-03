@@ -1,5 +1,6 @@
-export default function() {
-  return [
+export default function(
+  state =
+  [
     {
       id: 0,
       name: "David Hakobyan",
@@ -36,5 +37,14 @@ export default function() {
       profession: "Designer",
       status: "Accepted"
     }
-  ]
+  ],
+  action) {
+  switch(action.type) {
+    case "STATUS_CHANGED":
+      const newState = state.slice();
+      newState[action.payload.id].status = action.payload.status;
+      return newState;
+      break;
+  }
+  return state;
 }

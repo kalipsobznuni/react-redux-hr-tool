@@ -10,6 +10,8 @@ import {List, ListItem} from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import RaisedButton from 'material-ui/RaisedButton'
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+import {bindActionCreators} from 'redux';
+import changeStatus from '../actions/changeStatus';
 
 class Candidates extends React.Component {
   constructor(props) {
@@ -22,10 +24,8 @@ class Candidates extends React.Component {
     }
   }
 
-  saveCandidateStatus = (candidate, status) => {
-    const candidates = this.state.candidates.slice();
-    candidates[candidate.id].status = status;
-    this.setState({candidates});
+  saveCandidateStatus = (candidateID, status) => {
+    this.props.changeStatus(candidateID, status);
   }
 
   selectedCandidateIDChange = (selectedCandidateID) => {
@@ -110,7 +110,7 @@ class Candidates extends React.Component {
           <RaisedButton
             style={{"marginTop": "10px", "width": "100%"}}
             label="Save"
-            onTouchTap={() => this.saveCandidateStatus(candidate, changedStatus)}
+            onTouchTap={() => this.saveCandidateStatus(candidate.id, changedStatus)}
           />
         </List>
         );
@@ -127,11 +127,15 @@ class Candidates extends React.Component {
         <Table
           style={{"width": "50%"}}
         >
-          <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+          <TableHeader
+            style={{"backgroundColor": "#00BCD4"}}
+            displaySelectAll={false}
+            adjustForCheckbox={false}
+          >
             <TableRow>
-              <TableHeaderColumn>Name</TableHeaderColumn>
-              <TableHeaderColumn>Profession</TableHeaderColumn>
-              <TableHeaderColumn>Status</TableHeaderColumn>
+              <TableHeaderColumn style={{"color": "white"}}>Name</TableHeaderColumn>
+              <TableHeaderColumn style={{"color": "white"}}>Profession</TableHeaderColumn>
+              <TableHeaderColumn style={{"color": "white"}}>Status</TableHeaderColumn>
             </TableRow>
           </TableHeader>
           <TableBody
@@ -168,6 +172,10 @@ class Candidates extends React.Component {
   }
 }
 
+function matchDispatchToProps(dispatch) {
+  return bindActionCreators ({changeStatus: changeStatus}, dispatch)
+}
+
 function mapStateToProps(state) {
   return (
     {
@@ -176,4 +184,4 @@ function mapStateToProps(state) {
   )
 }
 
-export default connect(mapStateToProps)(Candidates);
+export default connect(mapStateToProps, matchDispatchToProps)(Candidates);
