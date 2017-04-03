@@ -1,31 +1,37 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import _ from 'lodash/core';
+
+
+import { Table, TableBody, TableHeader, TableHeaderColumn,
+         TableRow, TableRowColumn } from 'material-ui/Table';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
-import Drawer from 'material-ui/Drawer';
-import {List, ListItem} from 'material-ui/List';
-import Divider from 'material-ui/Divider';
-import RaisedButton from 'material-ui/RaisedButton'
-import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
-import {bindActionCreators} from 'redux';
+import FlatButton from 'material-ui/FlatButton'
+
 import changeStatus from '../actions/changeStatus';
 
-class Candidates extends React.Component {
+function mapStateToProps(state) {
+  return (
+    {
+      candidates: state.candidates
+    }
+  )
+}
+
+class Candidates extends React.PureComponent {
   constructor(props) {
     super(props);
     injectTapEventPlugin();
     this.state = {
       candidates: this.props.candidates,
-      dropDownValue: 1,
       selectedCandidateID: -1,
     }
   }
 
   componentWillMount() {
-    this.filterListElements(1);
+    this.filterListElements("Name");
   }
 
   saveCandidateStatus = (candidateID, status) => {
@@ -40,11 +46,6 @@ class Candidates extends React.Component {
     }
   }
 
-  handleDropDownValueChange = (event, index, dropDownValue) => {
-    this.setState({dropDownValue});
-    this.filterListElements(dropDownValue);
-  }
-
   filterListElements = (value) => {
     let candidates =  this.state.candidates.slice();
     const compareStatus = (a, b) => {
@@ -53,13 +54,13 @@ class Candidates extends React.Component {
       }
     };
     switch (value) {
-      case 1:
+      case "Name":
         candidates = _.sortBy(candidates, i => i.name);
         break;
-      case 2:
+      case "Profession":
         candidates = _.sortBy(candidates, i => i.profession);
         break;
-      case 3:
+      case "Status":
         candidates = candidates.sort(compareStatus);
         break;
       default:
@@ -69,64 +70,9 @@ class Candidates extends React.Component {
   }
 
   render() {
-
-    const renderCandidateInfo = () => {
-      const candidate = _.find(this.state.candidates, {id: this.state.selectedCandidateID}) || 0;
-      const {name, profession, status} = candidate;
-      let changedStatus = status;
-      const changeStatus = e => changedStatus = e.target.value;
-      return (
-        <List>
-          <ListItem primaryText={name} style={{"fontWeight": "bold"}}/>
-          <Divider />
-          <ListItem primaryText={profession} />
-          <Divider />
-          <RadioButtonGroup
-            style={{"marginTop": "10px"}}
-            name="decideFuture"
-            valueSelected={status}
-          >
-            <RadioButton
-              style={{"marginTop": "5px"}}
-              value="Undecided"
-              label="Undecided"
-              onTouchTap={changeStatus}
-            />
-            <RadioButton
-              style={{"marginTop": "5px"}}
-              value="Accepted"
-              label="Accept"
-              onTouchTap={changeStatus}
-            />
-            <RadioButton
-              style={{"marginTop": "5px"}}
-              value="Shortlisted"
-              label="Shortlist"
-              onTouchTap={changeStatus}
-            />
-            <RadioButton
-              style={{"marginTop": "5px"}}
-              value="Rejected"
-              label="Reject"
-              onTouchTap={changeStatus}
-            />
-          </RadioButtonGroup>
-          <RaisedButton
-            style={{"marginTop": "10px", "width": "100%"}}
-            label="Save"
-            onTouchTap={() => this.saveCandidateStatus(candidate.id, changedStatus)}
-          />
-        </List>
-        );
-      }
-
+    const header =  ["Name", "Profession", "Status"];
     return(
       <div>
-        <DropDownMenu value={this.state.dropDownValue} onChange={this.handleDropDownValueChange}>
-          <MenuItem value={1} primaryText="Name" />
-          <MenuItem value={2} primaryText="Profession" />
-          <MenuItem value={3} primaryText="Status" />
-        </DropDownMenu>
         <Table
           style={{"width": "50%"}}
         >
@@ -136,9 +82,19 @@ class Candidates extends React.Component {
             adjustForCheckbox={false}
           >
             <TableRow>
-              <TableHeaderColumn style={{"color": "white"}}>Name</TableHeaderColumn>
-              <TableHeaderColumn style={{"color": "white"}}>Profession</TableHeaderColumn>
-              <TableHeaderColumn style={{"color": "white"}}>Status</TableHeaderColumn>
+              {
+                header.map(column => (
+                  <TableHeaderColumn
+                    key={column}
+                  >
+                    <FlatButton
+                      style={{"color": "white"}}
+                      label={column}
+                      onTouchTap={() => this.filterListElements(column)}
+                    />
+                  </TableHeaderColumn>
+                ))
+              }
             </TableRow>
           </TableHeader>
           <TableBody
@@ -152,39 +108,17 @@ class Candidates extends React.Component {
                   key={candidate.id}
                   onTouchTap={() => this.selectedCandidateIDChange(candidate.id)}
                 >
-                  <TableRowColumn>{candidate.name}</TableRowColumn>
-                  <TableRowColumn>{candidate.profession}</TableRowColumn>
-                  <TableRowColumn>{candidate.status}</TableRowColumn>
+                  {header.map(column => (
+                    <TableRowColumn key={column}>{candidate[column.toLowerCase()]}</TableRowColumn>
+                  ))}
                 </TableRow>
               )
             })}
           </TableBody>
         </Table>
-        <Drawer
-          openSecondary={true}
-          open={this.state.selectedCandidateID!=-1}
-        >
-          {
-            this.state.selectedCandidateID!=-1 ?
-              renderCandidateInfo()
-              : null
-          }
-        </Drawer>
       </div>
     )
   }
 }
 
-function matchDispatchToProps(dispatch) {
-  return bindActionCreators ({changeStatus: changeStatus}, dispatch)
-}
-
-function mapStateToProps(state) {
-  return (
-    {
-      candidates: state.candidates
-    }
-  )
-}
-
-export default connect(mapStateToProps, matchDispatchToProps)(Candidates);
+export default connect(mapStateToProps, {changeStatus})(Candidates);
