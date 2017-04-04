@@ -2,6 +2,8 @@ import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import MenuItem from 'material-ui/MenuItem';
 
 export default class CandidateChangePopup extends React.PureComponent {
   constructor(props) {
@@ -14,12 +16,21 @@ export default class CandidateChangePopup extends React.PureComponent {
     }
   }
 
-  changeValue = (e) => {
-    const {name, value} = e.target;
-    this.setState({[name]: value})
+  changeProfession = (e, i, profession) => {
+    this.setState({profession});
+  }
+
+  changeStatus = (e, i, status) => {
+    this.setState({status});
+  }
+
+  changeName = (e) => {
+    this.setState({name: e.target.value})
   }
 
   render() {
+    const professions = ["Developer", "Engineer", "Designer"];
+    const statuses = ["Accepted", "Rejected", "Shortlisted"];
     const {closeDialogueBox, saveChangedCandidate, candidate} = this.props;
     const actions = [
       <FlatButton
@@ -30,7 +41,18 @@ export default class CandidateChangePopup extends React.PureComponent {
       <FlatButton
         label="Save"
         primary={true}
-        onTouchTap={() => {saveChangedCandidate; closeDialogueBox}}
+        onTouchTap={
+          () => {
+            const changedCandidate = {
+              id: candidate.id,
+              name: this.state.name,
+              profession: this.state.profession,
+              status: this.state.status
+            };
+            saveChangedCandidate(changedCandidate);
+            closeDialogueBox();
+        }
+      }
       />,
     ];
 
@@ -48,22 +70,36 @@ export default class CandidateChangePopup extends React.PureComponent {
             fullWidth={true}
             floatingLabelText="Name"
             value={this.state.name}
-            onChange={this.changeValue}
+            onChange={this.changeName}
           />
-          <TextField
-            name="profession"
-            fullWidth={true}
-            floatingLabelText="Profession"
+          <DropDownMenu
             value={this.state.profession}
-            onChange={this.changeValue}
-          />
-          <TextField
-            name="status"
-            fullWidth={true}
-            floatingLabelText="Status"
+            onChange={this.changeProfession}
+          >
+            {
+              professions.map((profession, index) =>
+                <MenuItem
+                  key={index}
+                  value={profession}
+                  primaryText={profession}
+                />
+              )
+            }
+          </DropDownMenu>
+          <DropDownMenu
             value={this.state.status}
-            onChange={this.changeValue}
-          />
+            onChange={this.changeStatus}
+          >
+            {
+              statuses.map((status, index) =>
+                <MenuItem
+                  key={index}
+                  value={status}
+                  primaryText={status}
+                />
+              )
+            }
+          </DropDownMenu>
         </Dialog>
       </div>
     );

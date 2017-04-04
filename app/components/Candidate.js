@@ -9,6 +9,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
+import TextField from 'material-ui/TextField';
 
 import CandidateChangePopup from './CandidateChangePopup';
 
@@ -28,7 +29,8 @@ class Candidates extends React.Component {
     injectTapEventPlugin();
     this.state = {
       candidates: this.props.candidates,
-      dialogBoxId: -1
+      dialogBoxId: -1,
+      filterValue: ""
     }
   }
 
@@ -75,10 +77,26 @@ class Candidates extends React.Component {
     this.setState({candidates});
   }
 
+
+
   render() {
+    const {candidates,filterValue} = this.state;
+    const filterCandidates = _.filter(candidates, (c) => {
+      return c.name.toLowerCase().includes(filterValue.toLowerCase())
+      ||
+      c.profession.toLowerCase().includes(filterValue.toLowerCase())
+      ||
+      c.status.toLowerCase().includes(filterValue.toLowerCase());
+    });
+
     const header =  ["Name", "Profession", "Status"];
     return(
       <div>
+        <TextField
+          floatingLabelText="Filter"
+          value={this.state.filterValue}
+          onChange={(e) => this.setState({filterValue: e.target.value})}
+        />
         <Table
           selectable={false}
           style={{"width": "50%"}}
@@ -107,7 +125,7 @@ class Candidates extends React.Component {
           <TableBody
             displayRowCheckbox={false}
           >
-            {this.state.candidates.map((candidate, index) => {
+            {filterCandidates.map((candidate, index) => {
               return(
                 <TableRow
                   style={{"cursor": "pointer"}}
@@ -124,7 +142,7 @@ class Candidates extends React.Component {
         </Table>
         {
           (() => {
-            if (this.state.dialogBoxId != -1) {
+            if (this.state.dialogBoxId !== -1) {
               return (
                 <CandidateChangePopup
                   closeDialogueBox={this.closeDialogueBox}
