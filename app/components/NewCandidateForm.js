@@ -3,18 +3,20 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import {orange500, blue500} from 'material-ui/styles/colors';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-//injectTapEventPlugin();
+import DatePicker from 'material-ui/DatePicker';
+
 
 
 class NewCandidateForm extends React.PureComponent {
     constructor(props){
       super(props);
+      injectTapEventPlugin();
       this.state = {
-        value: " "
+        value: ""
       };
     }
 
-        handleSumbit = (e) => {
+      handleSumbit = (e) => {
         alert('New Candidate: ' + this.state.value);
         event.preventDefault();
       }
@@ -64,6 +66,7 @@ class NewCandidateForm extends React.PureComponent {
         />
       </div>
       );
+
       const TextFieldAddress = () => (
       <div>
           <TextField
@@ -73,6 +76,13 @@ class NewCandidateForm extends React.PureComponent {
         />
       </div>
       );
+
+      const DatePickerMine = () => (
+        <div>
+          <DatePicker hintText="Birthday Date" mode="landscape" />
+        </div>
+      );
+
 
     const RaisedButtonExampleSimple = () => (
       <div>
@@ -84,12 +94,11 @@ class NewCandidateForm extends React.PureComponent {
       </div>
     );
 
-
-
     return(
       <div>
-      <form onSubmit={this.handleSumbit}>
+      <form>
           <TextFieldName  />
+          <DatePickerMine />
           <TextFieldEmail />
           <TextFieldPhone />
           <TextFieldAddress />
