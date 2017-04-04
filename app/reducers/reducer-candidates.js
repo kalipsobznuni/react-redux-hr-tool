@@ -1,48 +1,57 @@
-export default function(
-  state =
-  [
+import uuid from 'uuid/v4';
+import _ from 'lodash';
+const initialState =   [
     {
-      id: 0,
+      id: uuid(),
       name: "David Hakobyan",
       profession: "Developer",
       status: "Shortlisted"
     },
     {
-      id: 1,
+      id: uuid(),
       name: "Ann Brown",
       profession: "Developer",
       status: "Rejected"
     },
     {
-      id: 2,
+      id: uuid(),
       name: "Maria Sharapova",
       profession: "Designer",
       status: "Accepted"
     },
     {
-      id: 3,
+      id: uuid(),
       name: "Erik Davtyan",
       profession: "Developer",
       status: "Rejected"
     },
     {
-      id: 4,
+      id: uuid(),
       name: "Hakob Paronyan",
       profession: "Engineer",
       status: "Shortlisted"
     },
     {
-      id: 5,
+      id: uuid(),
       name: "Hillary Banks",
       profession: "Designer",
       status: "Accepted"
     }
-  ],
-  action) {
+  ]
+
+export default function(state = initialState, action) {
   switch(action.type) {
-    case "STATUS_CHANGED":
+    case "CANDIDATE_CHANGE":
+      const changedCandidate = Object.assign({}, {
+        ..._.find(state, {id: action.payload.id}),
+        name: action.payload.name,
+        profession: action.payload.profession,
+        status: action.payload.status
+      });
+      const index = _.findIndex(state, {id: changedCandidate.id});
       const newState = state.slice();
-      newState[action.payload.id].status = action.payload.status;
+      newState[index] = changedCandidate;
+      console.log(newState)
       return newState;
       break;
   }

@@ -10,7 +10,7 @@ import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton'
 
-import changeStatus from '../actions/changeStatus';
+import candidateChange from '../actions/candidateChange';
 
 function mapStateToProps(state) {
   return (
@@ -20,30 +20,25 @@ function mapStateToProps(state) {
   )
 }
 
-class Candidates extends React.PureComponent {
+class Candidates extends React.Component {
   constructor(props) {
     super(props);
     injectTapEventPlugin();
     this.state = {
       candidates: this.props.candidates,
-      selectedCandidateID: -1,
     }
+  }
+
+  componentWillReceiveProps(newProps) {
+    this.setState({candidates: newProps.candidates})
   }
 
   componentWillMount() {
     this.filterListElements("Name");
   }
 
-  saveCandidateStatus = (candidateID, status) => {
-    this.props.changeStatus(candidateID, status);
-  }
-
-  selectedCandidateIDChange = (selectedCandidateID) => {
-    if (selectedCandidateID === this.state.selectedCandidateID) {
-      this.setState({selectedCandidateID: -1});
-    } else {
-      this.setState({selectedCandidateID});
-    }
+  saveChangedCandidate = (changedCandidate) => {
+    this.props.candidateChange(changedCandidate);
   }
 
   filterListElements = (value) => {
@@ -106,7 +101,6 @@ class Candidates extends React.PureComponent {
                 <TableRow
                   style={{"cursor": "pointer"}}
                   key={candidate.id}
-                  onTouchTap={() => this.selectedCandidateIDChange(candidate.id)}
                 >
                   {header.map(column => (
                     <TableRowColumn key={column}>{candidate[column.toLowerCase()]}</TableRowColumn>
@@ -121,4 +115,4 @@ class Candidates extends React.PureComponent {
   }
 }
 
-export default connect(mapStateToProps, {changeStatus})(Candidates);
+export default connect(mapStateToProps, {candidateChange})(Candidates);
