@@ -8,7 +8,9 @@ import { Table, TableBody, TableHeader, TableHeaderColumn,
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
-import FlatButton from 'material-ui/FlatButton'
+import FlatButton from 'material-ui/FlatButton';
+
+import CandidateChangePopup from './CandidateChangePopup';
 
 import candidateChange from '../actions/candidateChange';
 
@@ -26,6 +28,7 @@ class Candidates extends React.Component {
     injectTapEventPlugin();
     this.state = {
       candidates: this.props.candidates,
+      dialogBoxId: -1
     }
   }
 
@@ -35,6 +38,14 @@ class Candidates extends React.Component {
 
   componentWillMount() {
     this.filterListElements("Name");
+  }
+
+  showCandidateDialogue = (dialogBoxId) =>  {
+    this.setState({dialogBoxId});
+  }
+
+  closeDialogueBox = () => {
+    this.showCandidateDialogue(-1);
   }
 
   saveChangedCandidate = (changedCandidate) => {
@@ -69,6 +80,7 @@ class Candidates extends React.Component {
     return(
       <div>
         <Table
+          selectable={false}
           style={{"width": "50%"}}
         >
           <TableHeader
@@ -94,13 +106,13 @@ class Candidates extends React.Component {
           </TableHeader>
           <TableBody
             displayRowCheckbox={false}
-            deselectOnClickaway={false}
           >
             {this.state.candidates.map((candidate, index) => {
               return(
                 <TableRow
                   style={{"cursor": "pointer"}}
                   key={candidate.id}
+                  onTouchTap={() => this.showCandidateDialogue(candidate.id)}
                 >
                   {header.map(column => (
                     <TableRowColumn key={column}>{candidate[column.toLowerCase()]}</TableRowColumn>
@@ -110,6 +122,19 @@ class Candidates extends React.Component {
             })}
           </TableBody>
         </Table>
+        {
+          (() => {
+            if (this.state.dialogBoxId != -1) {
+              return (
+                <CandidateChangePopup
+                  closeDialogueBox={this.closeDialogueBox}
+                  saveChangedCandidate={this.saveChangedCandidate}
+                  candidate={_.find(this.state.candidates, {id: this.state.dialogBoxId})}
+                />
+              )
+            }
+          })()
+        }
       </div>
     )
   }
