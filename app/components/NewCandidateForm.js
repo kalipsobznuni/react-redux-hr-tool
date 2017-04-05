@@ -4,8 +4,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {orange500, blue500} from 'material-ui/styles/colors';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import DatePicker from 'material-ui/DatePicker';
-
-
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 
 class NewCandidateForm extends React.PureComponent {
     constructor(props){
@@ -94,10 +94,24 @@ class NewCandidateForm extends React.PureComponent {
       </div>
     );
 
+    const SelectPosition = () => (
+      <div>
+        <SelectField
+            floatingLabelText="Position"
+            value={1}
+        >
+        <MenuItem primaryText="Developer" value={1}/>
+        <MenuItem primaryText="Designer" />
+        <MenuItem primaryText="Engineer" />
+        </SelectField>
+      </div>
+    )
+
     return(
       <div>
       <form>
           <TextFieldName  />
+          <SelectPosition />
           <DatePickerMine />
           <TextFieldEmail />
           <TextFieldPhone />
