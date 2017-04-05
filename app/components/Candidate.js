@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import _ from 'lodash/core';
+import uuid from 'uuid/v4';
 
 
 import { Table, TableBody, TableHeader, TableHeaderColumn,
@@ -14,11 +15,12 @@ import TextField from 'material-ui/TextField';
 import CandidateChangePopup from './CandidateChangePopup';
 
 import candidateChange from '../actions/candidateChange';
+import addCandidate from '../actions/addCandidate';
 
 function mapStateToProps(state) {
   return (
     {
-      candidates: state.candidates
+      candidates: state.candidates,
     }
   )
 }
@@ -29,7 +31,7 @@ class Candidates extends React.Component {
     injectTapEventPlugin();
     this.state = {
       candidates: this.props.candidates,
-      dialogBoxId: -1,
+      dialogueBoxId: "-1",
       filterValue: ""
     }
   }
@@ -42,16 +44,20 @@ class Candidates extends React.Component {
     this.filterListElements("Name");
   }
 
-  showCandidateDialogue = (dialogBoxId) =>  {
-    this.setState({dialogBoxId});
+  showCandidateDialogue = (dialogueBoxId) =>  {
+    this.setState({dialogueBoxId});
   }
 
   closeDialogueBox = () => {
-    this.showCandidateDialogue(-1);
+    this.showCandidateDialogue("-1");
   }
 
-  saveChangedCandidate = (changedCandidate) => {
-    this.props.candidateChange(changedCandidate);
+  saveChangedCandidate = (candidate, isNew) => {
+    if(isNew) {
+      this.props.addCandidate(candidate)
+    } else {
+      this.props.candidateChange(candidate);
+    }
   }
 
   filterListElements = (value) => {
@@ -77,8 +83,6 @@ class Candidates extends React.Component {
     this.setState({candidates});
   }
 
-
-
   render() {
     const {candidates,filterValue} = this.state;
     const filterCandidates = _.filter(candidates, (c) => {
@@ -88,6 +92,13 @@ class Candidates extends React.Component {
       ||
       c.status.toLowerCase().includes(filterValue.toLowerCase());
     });
+    const newCandidateScreen = () => {
+      return (
+        <CandidateChangePopup
+
+        />
+      )
+    }
 
     const header =  ["Name", "Profession", "Status"];
     return(
@@ -140,14 +151,23 @@ class Candidates extends React.Component {
             })}
           </TableBody>
         </Table>
+        <FlatButton
+          style={{"backgroundColor": "#00BCD4", "color": "white"}}
+          label="add"
+          onTouchTap={() => this.setState({dialogueBoxId: "new"})}
+        />
         {
           (() => {
-            if (this.state.dialogBoxId !== -1) {
+            if (this.state.dialogueBoxId !== "-1") {
               return (
                 <CandidateChangePopup
                   closeDialogueBox={this.closeDialogueBox}
                   saveChangedCandidate={this.saveChangedCandidate}
-                  candidate={_.find(this.state.candidates, {id: this.state.dialogBoxId})}
+                  candidate={
+                    _.find(this.state.candidates, {id: this.state.dialogueBoxId})
+                   || {
+                    id: uuid(), name: "", profession: "", status: "",isNew: true
+                  }}
                 />
               )
             }
@@ -158,4 +178,4 @@ class Candidates extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, {candidateChange})(Candidates);
+export default connect(mapStateToProps, {candidateChange, addCandidate})(Candidates);

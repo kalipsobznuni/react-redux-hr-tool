@@ -10,9 +10,10 @@ export default class CandidateChangePopup extends React.PureComponent {
     super(props);
     const {candidate} = props;
     this.state = {
-      name: candidate.name,
+      name: candidate.name || "",
       profession: candidate.profession,
-      status: candidate.status
+      status: candidate.status,
+      isNew: candidate.isNew || false
     }
   }
 
@@ -49,7 +50,7 @@ export default class CandidateChangePopup extends React.PureComponent {
               profession: this.state.profession,
               status: this.state.status
             };
-            saveChangedCandidate(changedCandidate);
+            saveChangedCandidate(changedCandidate, this.state.isNew);
             closeDialogueBox();
         }
       }
