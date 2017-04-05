@@ -51,8 +51,10 @@ export default function(state = initialState, action) {
       const index = _.findIndex(state, {id: changedCandidate.id});
       const newState = state.slice();
       newState[index] = changedCandidate;
-      console.log(newState)
       return newState;
+      break;
+    case "ADD_CANDIDATE":
+      return [...state, action.payload];
       break;
   }
   return state;
