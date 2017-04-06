@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import NewCandidateForm from './NewCandidateForm';
+import CandidateInterviewHomepage from './CandidateInterviewHomepage';
 import LoginSignup from './LoginSignup';
 import Candidates from './Candidate';
 import '../style/index.sass';
