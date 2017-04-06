@@ -32,7 +32,8 @@ class Candidates extends React.Component {
     this.state = {
       candidates: this.props.candidates,
       dialogueBoxId: "-1",
-      filterValue: ""
+      filterValue: "",
+      editable: false
     }
   }
 
@@ -49,7 +50,7 @@ class Candidates extends React.Component {
   }
 
   closeDialogueBox = () => {
-    this.showCandidateDialogue("-1");
+    this.setState({dialogueBoxId: "-1"});
   }
 
   saveChangedCandidate = (candidate, isNew) => {
@@ -85,29 +86,18 @@ class Candidates extends React.Component {
 
   render() {
     const {candidates,filterValue} = this.state;
-    const filterCandidates = _.filter(candidates, (c) => {
-      return c.name.toLowerCase().includes(filterValue.toLowerCase())
-      ||
-      c.profession.toLowerCase().includes(filterValue.toLowerCase())
-      ||
-      c.status.toLowerCase().includes(filterValue.toLowerCase());
-    });
-    const newCandidateScreen = () => {
-      return (
-        <CandidateChangePopup
-
-        />
-      )
-    }
-
     const header =  ["Name", "Profession", "Status"];
-    return(
-      <div>
-        <TextField
-          floatingLabelText="Filter"
-          value={this.state.filterValue}
-          onChange={(e) => this.setState({filterValue: e.target.value})}
-        />
+    const filterCandidates = _.filter(candidates, (c) => {
+      for (let i = 0; i < header.length; ++i) {
+        if (c[header[i].toLowerCase()].toLowerCase().includes(filterValue)) {
+          return true;
+        }
+      }
+    });
+
+    const CandidatesTable = () => {
+      const fontStyle = this.state.editable ? {"fontStyle": "italic"} : {};
+      return (
         <Table
           selectable={false}
           style={{"width": "50%"}}
@@ -135,13 +125,19 @@ class Candidates extends React.Component {
           </TableHeader>
           <TableBody
             displayRowCheckbox={false}
+            style={fontStyle}
           >
             {filterCandidates.map((candidate, index) => {
               return(
                 <TableRow
                   style={{"cursor": "pointer"}}
                   key={candidate.id}
-                  onTouchTap={() => this.showCandidateDialogue(candidate.id)}
+                  onTouchTap={
+                    () => {
+                      if (this.state.editable)
+                        this.setState({dialogueBoxId: candidate.id})
+                    }
+                  }
                 >
                   {header.map(column => (
                     <TableRowColumn key={column}>{candidate[column.toLowerCase()]}</TableRowColumn>
@@ -151,25 +147,46 @@ class Candidates extends React.Component {
             })}
           </TableBody>
         </Table>
+      );
+    };
+
+    const CandidateChange = () => {
+      return (
+        <CandidateChangePopup
+          closeDialogueBox={this.closeDialogueBox}
+          saveChangedCandidate={this.saveChangedCandidate}
+          candidate={
+            _.find(this.state.candidates, {id: this.state.dialogueBoxId})
+           || {
+            id: uuid(), name: "", profession: "", status: "",isNew: true
+          }}
+        />
+      );
+    };
+
+
+    return(
+      <div>
+        <TextField
+          floatingLabelText="Filter"
+          value={this.state.filterValue}
+          onChange={(e) => this.setState({filterValue: e.target.value.toLowerCase()})}
+        />
         <FlatButton
-          style={{"backgroundColor": "#00BCD4", "color": "white"}}
+          style={{"backgroundColor": "#00BCD4", "color": "white", "marginLeft": "20px"}}
           label="add"
           onTouchTap={() => this.setState({dialogueBoxId: "new"})}
         />
+        <FlatButton
+          style={{"backgroundColor": "#00BCD4", "color": "white", "marginLeft": "20px"}}
+          label="edit"
+          onTouchTap={() => this.setState({editable: !this.state.editable})}
+        />
+        <CandidatesTable />
         {
           (() => {
             if (this.state.dialogueBoxId !== "-1") {
-              return (
-                <CandidateChangePopup
-                  closeDialogueBox={this.closeDialogueBox}
-                  saveChangedCandidate={this.saveChangedCandidate}
-                  candidate={
-                    _.find(this.state.candidates, {id: this.state.dialogueBoxId})
-                   || {
-                    id: uuid(), name: "", profession: "", status: "",isNew: true
-                  }}
-                />
-              )
+              return <CandidateChange />
             }
           })()
         }
