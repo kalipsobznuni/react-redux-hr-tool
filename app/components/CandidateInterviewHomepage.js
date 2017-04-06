@@ -5,6 +5,8 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import {orange500, blue500} from 'material-ui/styles/colors'
 import interviewQuestions from './questionnaire';
+import TextField from 'material-ui/TextField';
+import '../styles/frontpage.sass';
 
 class CandidateInterviewHomepage extends React.PureComponent {
   constructor(){
@@ -22,11 +24,14 @@ class CandidateInterviewHomepage extends React.PureComponent {
   render() {
     const allquestions = interviewQuestions[this.state.value].map((question, idx)=>{
       return (
-        <li key={idx}>
-          {question}
-        </li>
-    )
-    })
+        <div className="questions">
+              <TextField key={idx} id="field"
+                  style={{width:"80%"}}
+                  //fullWidth:true
+                   floatingLabelText={question}
+               />
+        </div> )
+       })
 
     const styles = {
       floatingLabelStyle: {
@@ -52,15 +57,13 @@ class CandidateInterviewHomepage extends React.PureComponent {
       </div>
     )
 
-
     return(
       <div>
+
         <SelectPosition />
-          <div className="questionlist">
-          {allquestions}
+        {allquestions}
           </div>
-      </div>
-    )
+        )
   }
 }
 
