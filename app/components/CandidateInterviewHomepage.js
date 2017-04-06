@@ -4,39 +4,27 @@ import Candidate from './Candidate';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import {orange500, blue500} from 'material-ui/styles/colors'
-import {newquestions} from './questionnaire';
-console.log(newquestions)
+import interviewQuestions from './questionnaire';
 
 class CandidateInterviewHomepage extends React.PureComponent {
   constructor(){
     super();
     injectTapEventPlugin();
       this.state={
-        value: 0
+        value: "Developer"
     };
   }
 
-handleChange(e) {
-  alert("position chosen")
-}
+  handleChange = (e, i, value) => {
+    this.setState({value})
+  }
 
   render() {
-    const allquestions = newquestions.map((question, idx)=>{
-      console.log(question)
+    const allquestions = interviewQuestions[this.state.value].map((question, idx)=>{
       return (
-        <div className="everyquestion" key={idx*idx}>
-          <li className="question" key={`${idx}`}>
-           {question.map((chosen, idx)=>{
-             return(
-               <ul key={idx}>
-                {
-                     chosen.question
-                }
-               </ul>
-             )
-           })}
-          </li>
-      </div>
+        <li key={idx}>
+          {question}
+        </li>
     )
     })
 
@@ -55,11 +43,11 @@ handleChange(e) {
         <SelectField
             floatingLabelText="Position"
             onChange={this.handleChange}
+            value={this.state.value}
         >
-
-        <MenuItem primaryText="Developer" value={0}/>
-        <MenuItem primaryText="Designer" value={1}/>
-        <MenuItem primaryText="Engineer" value={2}/>
+        <MenuItem primaryText="Developer" value={"Developer"}/>
+        <MenuItem primaryText="Designer" value={"Designer"}/>
+        <MenuItem primaryText="Engineer" value={"Engineer"}/>
         </SelectField>
       </div>
     )
