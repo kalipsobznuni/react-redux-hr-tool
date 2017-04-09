@@ -87,12 +87,8 @@ class Candidates extends React.Component {
   render() {
     const {candidates,filterValue} = this.state;
     const header =  ["Name", "Profession", "Status"];
-    const filterCandidates = _.filter(candidates, (c) => {
-      for (let i = 0; i < header.length; ++i) {
-        if (c[header[i].toLowerCase()].toLowerCase().includes(filterValue)) {
-          return true;
-        }
-      }
+    const filterCandidates = candidates.filter((c) => {
+      return header.some(i => c[i.toLowerCase()].toLowerCase().includes(filterValue))
     });
 
     const CandidatesTable = () => {
