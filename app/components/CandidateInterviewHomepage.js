@@ -6,6 +6,7 @@ import MenuItem from 'material-ui/MenuItem';
 import {orange500, blue500} from 'material-ui/styles/colors'
 import interviewQuestions from './questionnaire';
 import TextField from 'material-ui/TextField';
+import Timer from 'react-timer';
 import '../styles/frontpage.sass';
 
 class CandidateInterviewHomepage extends React.PureComponent {
@@ -22,6 +23,7 @@ class CandidateInterviewHomepage extends React.PureComponent {
   }
 
   render() {
+    const OPTIONS = { prefix: 'seconds elapsed!', delay: 100};
     const allquestions = interviewQuestions[this.state.value].map((question, idx)=>{
       return (
         <div className="questions">
@@ -59,10 +61,12 @@ class CandidateInterviewHomepage extends React.PureComponent {
 
     return(
       <div>
-
         <SelectPosition />
         {allquestions}
-          </div>
+        <div>
+          <Timer options={OPTIONS} />
+        </div>
+      </div>
         )
   }
 }
