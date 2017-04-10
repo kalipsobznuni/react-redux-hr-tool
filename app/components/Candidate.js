@@ -28,7 +28,7 @@ function mapStateToProps(state) {
 class Candidates extends React.Component {
   constructor(props) {
     super(props);
-    injectTapEventPlugin();
+    //injectTapEventPlugin();
     this.state = {
       candidates: this.props.candidates,
       dialogueBoxId: "-1",

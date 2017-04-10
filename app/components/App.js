@@ -4,15 +4,20 @@ import NewCandidateForm from './NewCandidateForm';
 import CandidateInterviewHomepage from './CandidateInterviewHomepage';
 import LoginSignup from './LoginSignup';
 import Candidates from './Candidate';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 import '../style/index.sass';
 
 class App extends React.PureComponent {
+  constructor(){
+    super();
+    injectTapEventPlugin();
+  }
 
   render() {
 
     return(
       <div>
-        <Candidates />
+        <CandidateInterviewHomepage />
       </div>
     )
   }

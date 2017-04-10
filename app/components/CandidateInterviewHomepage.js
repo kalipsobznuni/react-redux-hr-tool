@@ -1,26 +1,32 @@
 import React from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import Candidate from './Candidate';
+import Candidates from './Candidate';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import {orange500, blue500} from 'material-ui/styles/colors'
 import interviewQuestions from './questionnaire';
 import TextField from 'material-ui/TextField';
 import Timer from 'react-timer';
+import Drawer from 'material-ui/Drawer';
+import AppBar from 'material-ui/AppBar';
+import RaisedButton from 'material-ui/RaisedButton';
 import '../styles/frontpage.sass';
 
 class CandidateInterviewHomepage extends React.PureComponent {
   constructor(){
     super();
-    injectTapEventPlugin();
+    //injectTapEventPlugin();
       this.state={
-        value: "Developer"
+        value: "Developer",
+        open: false
     };
   }
 
   handleChange = (e, i, value) => {
     this.setState({value})
   }
+
+  handleToggle = () => this.setState({open: !this.state.open});
 
   render() {
     const OPTIONS = { prefix: 'seconds elapsed!', delay: 100};
@@ -61,6 +67,17 @@ class CandidateInterviewHomepage extends React.PureComponent {
 
     return(
       <div>
+        <RaisedButton
+        label ="Candidates Info"
+        onTouchTap={this.handleToggle}
+        />
+        <Drawer width={700}
+        openSecondary={true}
+        open={this.state.open}
+        >
+        <AppBar title="Candidates" />
+        <Candidates />
+        </Drawer>
         <SelectPosition />
         {allquestions}
         <div>
