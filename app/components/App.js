@@ -17,7 +17,7 @@ class App extends React.PureComponent {
 
     return(
       <div>
-        <CandidateInterviewHomepage />
+        <Candidates />
       </div>
     )
   }

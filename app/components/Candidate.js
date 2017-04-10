@@ -6,7 +6,6 @@ import uuid from 'uuid/v4';
 
 import { Table, TableBody, TableHeader, TableHeaderColumn,
          TableRow, TableRowColumn } from 'material-ui/Table';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
@@ -28,7 +27,6 @@ function mapStateToProps(state) {
 class Candidates extends React.Component {
   constructor(props) {
     super(props);
-    //injectTapEventPlugin();
     this.state = {
       candidates: this.props.candidates,
       dialogueBoxId: "-1",
@@ -64,7 +62,8 @@ class Candidates extends React.Component {
   filterListElements = (value) => {
     let candidates =  this.state.candidates.slice();
     const compareStatus = (a, b) => {
-      if (b.status === "Accepted" && a.status !== "Accepted" || b.status === "Shortlisted" && a.status === "Rejected") {
+      if (b.status === "Accepted" && a.status !== "Accepted"
+      || b.status === "Shortlisted" && a.status === "Rejected") {
         return 1;
       }
     };
@@ -86,11 +85,10 @@ class Candidates extends React.Component {
 
   render() {
     const {candidates,filterValue} = this.state;
-    const header =  ["Name", "Profession", "Status"];
+    const header =  ["Name", "Profession", "Interview Time", "Status"];
     const filterCandidates = candidates.filter((c) => {
       return header.some(i => c[i.toLowerCase()].toLowerCase().includes(filterValue))
     });
-    const selectedStyle = {}
 
     const CandidatesTable = () => {
       return (
@@ -123,7 +121,8 @@ class Candidates extends React.Component {
             displayRowCheckbox={false}
           >
             {filterCandidates.map((candidate, index) => {
-              const isSelected = candidate.id === this.state.dialogueBoxId ? {backgroundColor: "#E0E0E0"} : {};
+              const isSelected = candidate.id === this.state.dialogueBoxId ?
+                {backgroundColor: "#E0E0E0"} : {};
               return(
                 <TableRow
                   style={{...isSelected, cursor: "pointer"}}
@@ -137,7 +136,9 @@ class Candidates extends React.Component {
                   }
                 >
                   {header.map(column => (
-                    <TableRowColumn key={column}>{candidate[column.toLowerCase()]}</TableRowColumn>
+                    <TableRowColumn key={column}>
+                      {candidate[column.toLowerCase()]}
+                    </TableRowColumn>
                   ))}
                 </TableRow>
               )
@@ -155,7 +156,7 @@ class Candidates extends React.Component {
           candidate={
             _.find(this.state.candidates, {id: this.state.dialogueBoxId})
            || {
-            id: uuid(), name: "", profession: "", status: "",isNew: true
+            id: uuid(), name: "", profession: "", status: "", isNew: true
           }}
         />
       );
@@ -170,7 +171,8 @@ class Candidates extends React.Component {
           onChange={(e) => this.setState({filterValue: e.target.value.toLowerCase()})}
         />
         <FlatButton
-          style={{backgroundColor: "#00BCD4", color: "white", marginLeft: "20px"}}
+          primary={true}
+          style={{marginLeft: "20px"}}
           label="add"
           onTouchTap={() => {
               this.setState({dialogueBoxId: "new", isDialogueBoxActive: true});
@@ -178,7 +180,9 @@ class Candidates extends React.Component {
           }
         />
         <FlatButton
-          style={{backgroundColor: "#00BCD4", color: "white", marginLeft: "20px"}}
+          primary={true}
+          disabled={this.state.dialogueBoxId === "-1" || this.state.dialogueBoxId === "new"}
+          style={{marginLeft: "20px"}}
           label="edit"
           onTouchTap={() => this.setState({isDialogueBoxActive: true})}
         />

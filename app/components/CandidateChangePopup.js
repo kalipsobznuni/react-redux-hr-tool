@@ -4,6 +4,8 @@ import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
+import DatePicker from 'material-ui/DatePicker';
+import TimePicker from 'material-ui/TimePicker';
 
 export default class CandidateChangePopup extends React.PureComponent {
   constructor(props) {
@@ -13,7 +15,9 @@ export default class CandidateChangePopup extends React.PureComponent {
       name: candidate.name || "",
       profession: candidate.profession,
       status: candidate.status,
-      isNew: candidate.isNew || false
+      isNew: candidate.isNew || false,
+      date: new Date(),
+      time: new Date()
     }
   }
 
@@ -48,7 +52,9 @@ export default class CandidateChangePopup extends React.PureComponent {
               id: candidate.id,
               name: this.state.name,
               profession: this.state.profession,
-              status: this.state.status
+              status: this.state.status,
+              date: this.state.date,
+              time: this.state.time
             };
             saveChangedCandidate(changedCandidate, this.state.isNew);
             closeDialogueBox();
@@ -101,6 +107,17 @@ export default class CandidateChangePopup extends React.PureComponent {
               )
             }
           </DropDownMenu>
+          <DatePicker
+            hintText="Select Interview Date"
+            mode="landscape"
+            value={this.state.date}
+            onChange={(e, date) => this.setState({date})}
+          />
+          <TimePicker
+            hintText="Select Interview Time"
+            value={this.state.time}
+            onChange={(e, time) => this.setState({time})}
+          />
         </Dialog>
       </div>
     );
