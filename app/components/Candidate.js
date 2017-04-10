@@ -32,8 +32,8 @@ class Candidates extends React.Component {
     this.state = {
       candidates: this.props.candidates,
       dialogueBoxId: "-1",
+      isDialogueBoxActive: false,
       filterValue: "",
-      editable: false
     }
   }
 
@@ -50,7 +50,7 @@ class Candidates extends React.Component {
   }
 
   closeDialogueBox = () => {
-    this.setState({dialogueBoxId: "-1"});
+    this.setState({isDialogueBoxActive: false});
   }
 
   saveChangedCandidate = (candidate, isNew) => {
@@ -87,23 +87,19 @@ class Candidates extends React.Component {
   render() {
     const {candidates,filterValue} = this.state;
     const header =  ["Name", "Profession", "Status"];
-    const filterCandidates = _.filter(candidates, (c) => {
-      for (let i = 0; i < header.length; ++i) {
-        if (c[header[i].toLowerCase()].toLowerCase().includes(filterValue)) {
-          return true;
-        }
-      }
+    const filterCandidates = candidates.filter((c) => {
+      return header.some(i => c[i.toLowerCase()].toLowerCase().includes(filterValue))
     });
+    const selectedStyle = {}
 
     const CandidatesTable = () => {
-      const fontStyle = this.state.editable ? {"fontStyle": "italic"} : {};
       return (
         <Table
+          style={{width: "50%"}}
           selectable={false}
-          style={{"width": "50%"}}
         >
           <TableHeader
-            style={{"backgroundColor": "#00BCD4"}}
+            style={{backgroundColor: "#00BCD4"}}
             displaySelectAll={false}
             adjustForCheckbox={false}
           >
@@ -114,7 +110,7 @@ class Candidates extends React.Component {
                     key={column}
                   >
                     <FlatButton
-                      style={{"color": "white"}}
+                      style={{color: "white"}}
                       label={column}
                       onTouchTap={() => this.filterListElements(column)}
                     />
@@ -125,17 +121,18 @@ class Candidates extends React.Component {
           </TableHeader>
           <TableBody
             displayRowCheckbox={false}
-            style={fontStyle}
           >
             {filterCandidates.map((candidate, index) => {
+              const isSelected = candidate.id === this.state.dialogueBoxId ? {backgroundColor: "#E0E0E0"} : {};
               return(
                 <TableRow
-                  style={{"cursor": "pointer"}}
+                  style={{...isSelected, cursor: "pointer"}}
                   key={candidate.id}
                   onTouchTap={
                     () => {
-                      if (this.state.editable)
-                        this.setState({dialogueBoxId: candidate.id})
+                      candidate.id === this.state.dialogueBoxId ?
+                        this.setState({dialogueBoxId: "-1"}) :
+                        this.setState({dialogueBoxId: candidate.id});
                     }
                   }
                 >
@@ -173,19 +170,22 @@ class Candidates extends React.Component {
           onChange={(e) => this.setState({filterValue: e.target.value.toLowerCase()})}
         />
         <FlatButton
-          style={{"backgroundColor": "#00BCD4", "color": "white", "marginLeft": "20px"}}
+          style={{backgroundColor: "#00BCD4", color: "white", marginLeft: "20px"}}
           label="add"
-          onTouchTap={() => this.setState({dialogueBoxId: "new"})}
+          onTouchTap={() => {
+              this.setState({dialogueBoxId: "new", isDialogueBoxActive: true});
+            }
+          }
         />
         <FlatButton
-          style={{"backgroundColor": "#00BCD4", "color": "white", "marginLeft": "20px"}}
+          style={{backgroundColor: "#00BCD4", color: "white", marginLeft: "20px"}}
           label="edit"
-          onTouchTap={() => this.setState({editable: !this.state.editable})}
+          onTouchTap={() => this.setState({isDialogueBoxActive: true})}
         />
         <CandidatesTable />
         {
           (() => {
-            if (this.state.dialogueBoxId !== "-1") {
+            if (this.state.isDialogueBoxActive) {
               return <CandidateChange />
             }
           })()
