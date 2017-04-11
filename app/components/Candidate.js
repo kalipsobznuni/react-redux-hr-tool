@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import _ from 'lodash/core';
 import uuid from 'uuid/v4';
+import moment from 'moment';
 
 
 import { Table, TableBody, TableHeader, TableHeaderColumn,
@@ -95,7 +96,6 @@ class Candidates extends React.Component {
     const CandidatesTable = () => {
       return (
         <Table
-          style={{width: "50%"}}
           selectable={false}
         >
           <TableHeader
@@ -144,7 +144,7 @@ class Candidates extends React.Component {
                     {candidate.profession}
                   </TableRowColumn>
                   <TableRowColumn>
-                    {candidate.date.toString()}
+                    {candidate.date.format("MMMM Do YYYY, h:mm:ss a")}
                   </TableRowColumn>
                   <TableRowColumn>
                     {candidate.status}

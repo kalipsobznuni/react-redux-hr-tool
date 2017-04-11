@@ -1,47 +1,48 @@
 import uuid from 'uuid/v4';
 import _ from 'lodash';
+import moment from 'moment';
 const initialState =   [
     {
       id: uuid(),
       name: "David Hakobyan",
       profession: "Developer",
       status: "Shortlisted",
-      date: new Date(),
+      date: moment("2017-06-14"),
     },
     {
       id: uuid(),
       name: "Ann Brown",
       profession: "Developer",
       status: "Rejected",
-      date: new Date(),
+      date: moment("2017-05-14"),
     },
     {
       id: uuid(),
       name: "Maria Sharapova",
       profession: "Designer",
       status: "Accepted",
-      date: new Date(),
+      date: moment("2017-06-10"),
     },
     {
       id: uuid(),
       name: "Erik Davtyan",
       profession: "Developer",
       status: "Rejected",
-      date: new Date(),
+      date: moment(),
     },
     {
       id: uuid(),
       name: "Hakob Paronyan",
       profession: "Engineer",
       status: "Shortlisted",
-      date: new Date(),
+      date: moment("2018-06-14"),
     },
     {
       id: uuid(),
       name: "Hillary Banks",
       profession: "Designer",
       status: "Accepted",
-      date: new Date(),
+      date: moment(),
     }
   ]
 

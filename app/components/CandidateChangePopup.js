@@ -6,6 +6,7 @@ import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import DatePicker from 'material-ui/DatePicker';
 import TimePicker from 'material-ui/TimePicker';
+import moment from 'moment';
 
 export default class CandidateChangePopup extends React.PureComponent {
   constructor(props) {
@@ -16,8 +17,7 @@ export default class CandidateChangePopup extends React.PureComponent {
       profession: candidate.profession,
       status: candidate.status,
       isNew: candidate.isNew || false,
-      date: new Date(),
-      time: new Date()
+      date: candidate.date || null
     }
   }
 
@@ -111,11 +111,13 @@ export default class CandidateChangePopup extends React.PureComponent {
             hintText="Select Interview Date"
             mode="landscape"
             value={this.state.date}
-            onChange={(e, date) => this.setState({date})}
+            onChange={(e, onlyDate) => {
+              const date = new Date(onlyDate.getFullYear(), onlyDate.getMonth(), onlyDate.getDay(), )
+            }}
           />
           <TimePicker
             hintText="Select Interview Time"
-            value={this.state.time}
+            value={this.state.date}
             onChange={(e, time) => this.setState({time})}
           />
         </Dialog>
