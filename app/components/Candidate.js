@@ -85,9 +85,11 @@ class Candidates extends React.Component {
 
   render() {
     const {candidates,filterValue} = this.state;
-    const header =  ["Name", "Profession", "Interview Time", "Status"];
+    const header =  ["Name", "Profession", "Date", "Status"];
     const filterCandidates = candidates.filter((c) => {
-      return header.some(i => c[i.toLowerCase()].toLowerCase().includes(filterValue))
+      return header.some(i => {
+        return c[i.toLowerCase()].toString().toLowerCase().includes(filterValue)
+      })
     });
 
     const CandidatesTable = () => {
@@ -135,11 +137,18 @@ class Candidates extends React.Component {
                     }
                   }
                 >
-                  {header.map(column => (
-                    <TableRowColumn key={column}>
-                      {candidate[column.toLowerCase()]}
-                    </TableRowColumn>
-                  ))}
+                  <TableRowColumn>
+                    {candidate.name}
+                  </TableRowColumn>
+                  <TableRowColumn>
+                    {candidate.profession}
+                  </TableRowColumn>
+                  <TableRowColumn>
+                    {candidate.date.toString()}
+                  </TableRowColumn>
+                  <TableRowColumn>
+                    {candidate.status}
+                  </TableRowColumn>
                 </TableRow>
               )
             })}

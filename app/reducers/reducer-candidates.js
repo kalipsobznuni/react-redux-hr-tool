@@ -7,7 +7,6 @@ const initialState =   [
       profession: "Developer",
       status: "Shortlisted",
       date: new Date(),
-      time: new Date()
     },
     {
       id: uuid(),
@@ -15,7 +14,6 @@ const initialState =   [
       profession: "Developer",
       status: "Rejected",
       date: new Date(),
-      time: new Date()
     },
     {
       id: uuid(),
@@ -23,7 +21,6 @@ const initialState =   [
       profession: "Designer",
       status: "Accepted",
       date: new Date(),
-      time: new Date()
     },
     {
       id: uuid(),
@@ -31,7 +28,6 @@ const initialState =   [
       profession: "Developer",
       status: "Rejected",
       date: new Date(),
-      time: new Date()
     },
     {
       id: uuid(),
@@ -39,7 +35,6 @@ const initialState =   [
       profession: "Engineer",
       status: "Shortlisted",
       date: new Date(),
-      time: new Date()
     },
     {
       id: uuid(),
@@ -47,7 +42,6 @@ const initialState =   [
       profession: "Designer",
       status: "Accepted",
       date: new Date(),
-      time: new Date()
     }
   ]
 
