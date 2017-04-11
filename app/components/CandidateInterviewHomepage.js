@@ -10,6 +10,7 @@ import Timer from 'react-timer';
 import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
+import CircularProgress from 'material-ui/CircularProgress';
 import '../styles/frontpage.sass';
 
 class CandidateInterviewHomepage extends React.PureComponent {
@@ -27,6 +28,10 @@ class CandidateInterviewHomepage extends React.PureComponent {
   }
 
   handleToggle = () => this.setState({open: !this.state.open});
+
+  componentDidMount(){
+    document.getElementsByClassName('react-timer')[0].children[3].innerHTML="start";
+  }
 
   render() {
     const OPTIONS = { prefix: 'seconds elapsed!', delay: 100};
@@ -64,6 +69,12 @@ class CandidateInterviewHomepage extends React.PureComponent {
         </SelectField>
       </div>
     )
+    const TimerNow = () => {
+              return (
+                  <div>
+                    <Timer options={OPTIONS}  />
+                  </div>
+              )}
 
     return(
       <div>
@@ -80,9 +91,7 @@ class CandidateInterviewHomepage extends React.PureComponent {
         </Drawer>
         <SelectPosition />
         {allquestions}
-        <div>
-          <Timer options={OPTIONS} />
-        </div>
+        <TimerNow />
       </div>
         )
   }
