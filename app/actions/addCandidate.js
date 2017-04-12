@@ -5,7 +5,8 @@ export default function(newCandidate) {
       id: newCandidate.id,
       name: newCandidate.name,
       profession: newCandidate.profession,
-      status: newCandidate.status
+      status: newCandidate.status,
+      date: newCandidate.date
     }
   }
 }

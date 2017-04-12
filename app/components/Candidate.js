@@ -78,6 +78,9 @@ class Candidates extends React.Component {
       case "Status":
         candidates = candidates.sort(compareStatus);
         break;
+      case "Date":
+        candidates = _.sortBy(candidates, i => i.date);
+        break;
       default:
         break;
     }
@@ -144,7 +147,7 @@ class Candidates extends React.Component {
                     {candidate.profession}
                   </TableRowColumn>
                   <TableRowColumn>
-                    {candidate.date.format("MMMM Do YYYY, h:mm:ss a")}
+                    {moment(candidate.date).format("Do MMMM YYYY, h:mm a")}
                   </TableRowColumn>
                   <TableRowColumn>
                     {candidate.status}
