@@ -48,7 +48,6 @@ const initialState =   [
 export default function(state = initialState, action) {
   switch(action.type) {
     case "CANDIDATE_CHANGE":
-      console.log(action.payload)
       const changedCandidate = Object.assign({}, {
         ..._.find(state, {id: action.payload.id}),
         name: action.payload.name,
@@ -63,6 +62,13 @@ export default function(state = initialState, action) {
       break;
     case "ADD_CANDIDATE":
       return [...state, action.payload];
+      break;
+    case "DELETE_CANDIDATE":
+      const {id} = action.payload;
+      const deleteIndex = _.findIndex(state, {id: id});
+      let _newState = state.slice();
+      _newState.splice(deleteIndex, 1);
+      return _newState;
       break;
   }
   return state;

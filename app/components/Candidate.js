@@ -4,7 +4,6 @@ import _ from 'lodash/core';
 import uuid from 'uuid/v4';
 import moment from 'moment';
 
-
 import { Table, TableBody, TableHeader, TableHeaderColumn,
          TableRow, TableRowColumn } from 'material-ui/Table';
 import DropDownMenu from 'material-ui/DropDownMenu';
@@ -16,6 +15,7 @@ import CandidateChangePopup from './CandidateChangePopup';
 
 import candidateChange from '../actions/candidateChange';
 import addCandidate from '../actions/addCandidate';
+import deleteCandidate from '../actions/deleteCandidate';
 
 function mapStateToProps(state) {
   return (
@@ -198,6 +198,13 @@ class Candidates extends React.Component {
           label="edit"
           onTouchTap={() => this.setState({isDialogueBoxActive: true})}
         />
+        <FlatButton
+          primary={true}
+          disabled={this.state.dialogueBoxId === "-1" || this.state.dialogueBoxId === "new"}
+          style={{marginLeft: "20px"}}
+          label="delete"
+          onTouchTap={() => this.props.deleteCandidate(this.state.dialogueBoxId)}
+        />
         <CandidatesTable />
         {
           (() => {
@@ -211,4 +218,4 @@ class Candidates extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, {candidateChange, addCandidate})(Candidates);
+export default connect(mapStateToProps, {candidateChange, addCandidate, deleteCandidate})(Candidates);
