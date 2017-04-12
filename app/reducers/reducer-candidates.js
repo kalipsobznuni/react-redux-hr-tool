@@ -6,24 +6,21 @@ const initialState =   [
       name: "David Hakobyan",
       profession: "Developer",
       status: "Shortlisted",
-      date: new Date(),
-      time: new Date()
+      date: new Date("2017-06-14"),
     },
     {
       id: uuid(),
       name: "Ann Brown",
       profession: "Developer",
       status: "Rejected",
-      date: new Date(),
-      time: new Date()
+      date: new Date("2017-05-14"),
     },
     {
       id: uuid(),
       name: "Maria Sharapova",
       profession: "Designer",
       status: "Accepted",
-      date: new Date(),
-      time: new Date()
+      date: new Date("2017-06-10"),
     },
     {
       id: uuid(),
@@ -31,15 +28,13 @@ const initialState =   [
       profession: "Developer",
       status: "Rejected",
       date: new Date(),
-      time: new Date()
     },
     {
       id: uuid(),
       name: "Hakob Paronyan",
       profession: "Engineer",
       status: "Shortlisted",
-      date: new Date(),
-      time: new Date()
+      date: new Date("2018-06-14"),
     },
     {
       id: uuid(),
@@ -47,7 +42,6 @@ const initialState =   [
       profession: "Designer",
       status: "Accepted",
       date: new Date(),
-      time: new Date()
     }
   ]
 
@@ -59,8 +53,7 @@ export default function(state = initialState, action) {
         name: action.payload.name,
         profession: action.payload.profession,
         status: action.payload.status,
-        date: action.payload.date,
-        time: action.payload.time
+        date: action.payload.date
       });
       const index = _.findIndex(state, {id: changedCandidate.id});
       const newState = state.slice();
@@ -69,6 +62,13 @@ export default function(state = initialState, action) {
       break;
     case "ADD_CANDIDATE":
       return [...state, action.payload];
+      break;
+    case "DELETE_CANDIDATE":
+      const {id} = action.payload;
+      const deleteIndex = _.findIndex(state, {id: id});
+      let _newState = state.slice();
+      _newState.splice(deleteIndex, 1);
+      return _newState;
       break;
   }
   return state;

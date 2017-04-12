@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import _ from 'lodash/core';
 import uuid from 'uuid/v4';
-
+import moment from 'moment';
 
 import { Table, TableBody, TableHeader, TableHeaderColumn,
          TableRow, TableRowColumn } from 'material-ui/Table';
@@ -15,6 +15,7 @@ import CandidateChangePopup from './CandidateChangePopup';
 
 import candidateChange from '../actions/candidateChange';
 import addCandidate from '../actions/addCandidate';
+import deleteCandidate from '../actions/deleteCandidate';
 
 function mapStateToProps(state) {
   return (
@@ -77,6 +78,9 @@ class Candidates extends React.Component {
       case "Status":
         candidates = candidates.sort(compareStatus);
         break;
+      case "Date":
+        candidates = _.sortBy(candidates, i => i.date);
+        break;
       default:
         break;
     }
@@ -85,15 +89,16 @@ class Candidates extends React.Component {
 
   render() {
     const {candidates,filterValue} = this.state;
-    const header =  ["Name", "Profession", "Interview Time", "Status"];
+    const header =  ["Name", "Profession", "Date", "Status"];
     const filterCandidates = candidates.filter((c) => {
-      return header.some(i => c[i.toLowerCase()].toLowerCase().includes(filterValue))
+      return header.some(i => {
+        return c[i.toLowerCase()].toString().toLowerCase().includes(filterValue)
+      })
     });
 
     const CandidatesTable = () => {
       return (
         <Table
-          style={{width: "50%"}}
           selectable={false}
         >
           <TableHeader
@@ -135,11 +140,18 @@ class Candidates extends React.Component {
                     }
                   }
                 >
-                  {header.map(column => (
-                    <TableRowColumn key={column}>
-                      {candidate[column.toLowerCase()]}
-                    </TableRowColumn>
-                  ))}
+                  <TableRowColumn>
+                    {candidate.name}
+                  </TableRowColumn>
+                  <TableRowColumn>
+                    {candidate.profession}
+                  </TableRowColumn>
+                  <TableRowColumn>
+                    {moment(candidate.date).format("Do MMMM YYYY, h:mm a")}
+                  </TableRowColumn>
+                  <TableRowColumn>
+                    {candidate.status}
+                  </TableRowColumn>
                 </TableRow>
               )
             })}
@@ -186,6 +198,13 @@ class Candidates extends React.Component {
           label="edit"
           onTouchTap={() => this.setState({isDialogueBoxActive: true})}
         />
+        <FlatButton
+          primary={true}
+          disabled={this.state.dialogueBoxId === "-1" || this.state.dialogueBoxId === "new"}
+          style={{marginLeft: "20px"}}
+          label="delete"
+          onTouchTap={() => this.props.deleteCandidate(this.state.dialogueBoxId)}
+        />
         <CandidatesTable />
         {
           (() => {
@@ -199,4 +218,4 @@ class Candidates extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, {candidateChange, addCandidate})(Candidates);
+export default connect(mapStateToProps, {candidateChange, addCandidate, deleteCandidate})(Candidates);

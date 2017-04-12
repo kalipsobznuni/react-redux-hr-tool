@@ -16,8 +16,7 @@ export default class CandidateChangePopup extends React.PureComponent {
       profession: candidate.profession,
       status: candidate.status,
       isNew: candidate.isNew || false,
-      date: new Date(),
-      time: new Date()
+      date: candidate.date || new Date()
     }
   }
 
@@ -53,8 +52,7 @@ export default class CandidateChangePopup extends React.PureComponent {
               name: this.state.name,
               profession: this.state.profession,
               status: this.state.status,
-              date: this.state.date,
-              time: this.state.time
+              date: this.state.date
             };
             saveChangedCandidate(changedCandidate, this.state.isNew);
             closeDialogueBox();
@@ -111,12 +109,22 @@ export default class CandidateChangePopup extends React.PureComponent {
             hintText="Select Interview Date"
             mode="landscape"
             value={this.state.date}
-            onChange={(e, date) => this.setState({date})}
+            onChange={(e, newDate) => {
+              const o = this.state.date;
+              const n = newDate;
+              const date = new Date(n.getFullYear(), n.getMonth(), n.getDate(), o.getHours(), o.getMinutes());
+              this.setState({date})
+            }}
           />
           <TimePicker
             hintText="Select Interview Time"
-            value={this.state.time}
-            onChange={(e, time) => this.setState({time})}
+            value={this.state.date}
+            onChange={(e, newTime) => {
+              const o = this.state.date;
+              const n = newTime;
+              const date = new Date(o.getFullYear(), o.getMonth(), o.getDate(), n.getHours(), n.getMinutes());
+              this.setState({date})
+            }}
           />
         </Dialog>
       </div>
