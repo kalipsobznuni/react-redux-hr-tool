@@ -15,7 +15,6 @@ import '../styles/frontpage.sass';
 class CandidateInterviewHomepage extends React.PureComponent {
   constructor(){
     super();
-    //injectTapEventPlugin();
       this.state={
         value: "Developer",
         open: false

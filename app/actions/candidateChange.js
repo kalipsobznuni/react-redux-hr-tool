@@ -6,7 +6,8 @@ export default function(changedCandidate) {
       name: changedCandidate.name,
       profession: changedCandidate.profession,
       status: changedCandidate.status,
-      date: changedCandidate.date
+      date: changedCandidate.date,
+      level: changedCandidate.level
     }
   }
 }

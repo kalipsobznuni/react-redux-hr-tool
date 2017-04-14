@@ -40,10 +40,6 @@ class Candidates extends React.Component {
     this.setState({candidates: newProps.candidates})
   }
 
-  componentWillMount() {
-    this.filterListElements("Name");
-  }
-
   showCandidateDialogue = (dialogueBoxId) =>  {
     this.setState({dialogueBoxId});
   }
@@ -81,6 +77,9 @@ class Candidates extends React.Component {
       case "Date":
         candidates = _.sortBy(candidates, i => i.date);
         break;
+      case "Level":
+        candidates = _.sortBy(candidates, i => i.level);
+        break;
       default:
         break;
     }
@@ -89,7 +88,7 @@ class Candidates extends React.Component {
 
   render() {
     const {candidates,filterValue} = this.state;
-    const header =  ["Name", "Profession", "Date", "Status"];
+    const header =  ["Name", "Profession", "Level", "Date", "Status"];
     const filterCandidates = candidates.filter((c) => {
       return header.some(i => {
         return c[i.toLowerCase()].toString().toLowerCase().includes(filterValue)
@@ -145,6 +144,9 @@ class Candidates extends React.Component {
                   </TableRowColumn>
                   <TableRowColumn>
                     {candidate.profession}
+                  </TableRowColumn>
+                  <TableRowColumn>
+                    {candidate.level}
                   </TableRowColumn>
                   <TableRowColumn>
                     {moment(candidate.date).format("Do MMMM YYYY, h:mm a")}

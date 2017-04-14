@@ -16,7 +16,8 @@ export default class CandidateChangePopup extends React.PureComponent {
       profession: candidate.profession,
       status: candidate.status,
       isNew: candidate.isNew || false,
-      date: candidate.date || new Date()
+      date: candidate.date || new Date(),
+      level: candidate.level || "Intern"
     }
   }
 
@@ -35,7 +36,56 @@ export default class CandidateChangePopup extends React.PureComponent {
   render() {
     const professions = ["Developer", "Engineer", "Designer"];
     const statuses = ["Accepted", "Rejected", "Shortlisted"];
+    const levels = ["Intern", "Junior", "Middle", "Senior"];
     const {closeDialogueBox, saveChangedCandidate, candidate} = this.props;
+    const RenderLevels = () => {
+      return (
+        <DropDownMenu
+          value={this.state.level}
+          onChange={(e, i, level) => this.setState({level})}
+        >
+          {
+            levels.map(l => <MenuItem key={l} value={l} primaryText={l}/>)
+          }
+        </DropDownMenu>
+      )
+    };
+    const RenderProfessions = () => {
+      return (
+        <DropDownMenu
+          value={this.state.profession}
+          onChange={this.changeProfession}
+        >
+          {
+            professions.map((profession, index) =>
+              <MenuItem
+                key={index}
+                value={profession}
+                primaryText={profession}
+              />
+            )
+          }
+        </DropDownMenu>
+      )
+    };
+    const RenderStatuses = () => {
+      return (
+        <DropDownMenu
+          value={this.state.status}
+          onChange={this.changeStatus}
+        >
+          {
+            statuses.map((status, index) =>
+              <MenuItem
+                key={index}
+                value={status}
+                primaryText={status}
+              />
+            )
+          }
+        </DropDownMenu>
+      )
+    }
     const actions = [
       <FlatButton
         label="Cancel"
@@ -52,7 +102,8 @@ export default class CandidateChangePopup extends React.PureComponent {
               name: this.state.name,
               profession: this.state.profession,
               status: this.state.status,
-              date: this.state.date
+              date: this.state.date,
+              level: this.state.level
             };
             saveChangedCandidate(changedCandidate, this.state.isNew);
             closeDialogueBox();
@@ -77,34 +128,9 @@ export default class CandidateChangePopup extends React.PureComponent {
             value={this.state.name}
             onChange={this.changeName}
           />
-          <DropDownMenu
-            value={this.state.profession}
-            onChange={this.changeProfession}
-          >
-            {
-              professions.map((profession, index) =>
-                <MenuItem
-                  key={index}
-                  value={profession}
-                  primaryText={profession}
-                />
-              )
-            }
-          </DropDownMenu>
-          <DropDownMenu
-            value={this.state.status}
-            onChange={this.changeStatus}
-          >
-            {
-              statuses.map((status, index) =>
-                <MenuItem
-                  key={index}
-                  value={status}
-                  primaryText={status}
-                />
-              )
-            }
-          </DropDownMenu>
+          <RenderProfessions />
+          <RenderLevels />
+          <RenderStatuses />
           <DatePicker
             hintText="Select Interview Date"
             mode="landscape"
