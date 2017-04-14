@@ -7,6 +7,7 @@ const initialState =   [
       profession: "Developer",
       status: "Shortlisted",
       date: new Date("2017-06-14"),
+      level: "Intern"
     },
     {
       id: uuid(),
@@ -14,6 +15,7 @@ const initialState =   [
       profession: "Developer",
       status: "Rejected",
       date: new Date("2017-05-14"),
+      level: "Junior"
     },
     {
       id: uuid(),
@@ -21,6 +23,7 @@ const initialState =   [
       profession: "Designer",
       status: "Accepted",
       date: new Date("2017-06-10"),
+      level: "Middle"
     },
     {
       id: uuid(),
@@ -28,6 +31,7 @@ const initialState =   [
       profession: "Developer",
       status: "Rejected",
       date: new Date(),
+      level: "Senior"
     },
     {
       id: uuid(),
@@ -35,6 +39,7 @@ const initialState =   [
       profession: "Engineer",
       status: "Shortlisted",
       date: new Date("2018-06-14"),
+      level: "Junior"
     },
     {
       id: uuid(),
@@ -42,6 +47,7 @@ const initialState =   [
       profession: "Designer",
       status: "Accepted",
       date: new Date(),
+      level: "Junior"
     }
   ]
 
@@ -53,7 +59,8 @@ export default function(candidates = initialState, action) {
         name: action.payload.name,
         profession: action.payload.profession,
         status: action.payload.status,
-        date: action.payload.date
+        date: action.payload.date,
+        level: action.payload.level
       });
       const index = _.findIndex(candidates, {id: changedCandidate.id});
       const newState = candidates.slice();

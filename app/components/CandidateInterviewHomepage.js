@@ -1,6 +1,5 @@
 import React from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import Candidates from './Candidate';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import {orange500, blue500} from 'material-ui/styles/colors'
@@ -16,10 +15,8 @@ import '../styles/frontpage.sass';
 class CandidateInterviewHomepage extends React.PureComponent {
   constructor(){
     super();
-    //injectTapEventPlugin();
       this.state={
         value: "Developer",
-        open: false
     };
   }
 
@@ -37,11 +34,10 @@ class CandidateInterviewHomepage extends React.PureComponent {
     const OPTIONS = { prefix: 'seconds elapsed!', delay: 100};
     const allquestions = interviewQuestions[this.state.value].map((question, idx)=>{
       return (
-        <div className="questions">
-              <TextField key={idx} id="field"
+        <div key={idx} className="questions">
+              <TextField id="field"
                   style={{width:"80%"}}
-                  //fullWidth:true
-                   floatingLabelText={question}
+                  floatingLabelText={question}
                />
         </div> )
        })
@@ -78,22 +74,11 @@ class CandidateInterviewHomepage extends React.PureComponent {
 
     return(
       <div>
-        <RaisedButton
-        label ="Candidates Info"
-        onTouchTap={this.handleToggle}
-        />
-        <Drawer width={700}
-        openSecondary={true}
-        open={this.state.open}
-        >
-        <AppBar title="Candidates" />
-        <Candidates />
-        </Drawer>
         <SelectPosition />
         {allquestions}
         <TimerNow />
       </div>
-        )
+    )
   }
 }
 

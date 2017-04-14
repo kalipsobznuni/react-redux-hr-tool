@@ -40,7 +40,7 @@ class CustomQuestions extends React.PureComponent {
     const levels = ["Intern", "Junior", "Middle", "Senior"];
     const questions = this.state.questions[this.state.profession][this.state.level];
 
-    const RenderPositions = () => {
+    const RenderProfessions = () => {
       return (
         <DropDownMenu
           value={this.state.profession}
@@ -68,7 +68,7 @@ class CustomQuestions extends React.PureComponent {
 
     return (
       <div>
-        <RenderPositions />
+        <RenderProfessions />
         <RenderLevels />
         <br/>
         <TextField

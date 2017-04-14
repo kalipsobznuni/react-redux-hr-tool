@@ -10,8 +10,10 @@ import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
+import Dialog from 'material-ui/Dialog';
 
 import CandidateChangePopup from './CandidateChangePopup';
+import CandidateInterviewHomepage from './CandidateInterviewHomepage';
 
 import candidateChange from '../actions/candidateChange';
 import addCandidate from '../actions/addCandidate';
@@ -33,15 +35,12 @@ class Candidates extends React.Component {
       dialogueBoxId: "-1",
       isDialogueBoxActive: false,
       filterValue: "",
+      interviewScreen: false
     }
   }
 
   componentWillReceiveProps(newProps) {
     this.setState({candidates: newProps.candidates})
-  }
-
-  componentWillMount() {
-    this.filterListElements("Name");
   }
 
   showCandidateDialogue = (dialogueBoxId) =>  {
@@ -81,6 +80,9 @@ class Candidates extends React.Component {
       case "Date":
         candidates = _.sortBy(candidates, i => i.date);
         break;
+      case "Level":
+        candidates = _.sortBy(candidates, i => i.level);
+        break;
       default:
         break;
     }
@@ -89,7 +91,7 @@ class Candidates extends React.Component {
 
   render() {
     const {candidates,filterValue} = this.state;
-    const header =  ["Name", "Profession", "Date", "Status"];
+    const header =  ["Name", "Profession", "Level", "Date", "Status"];
     const filterCandidates = candidates.filter((c) => {
       return header.some(i => {
         return c[i.toLowerCase()].toString().toLowerCase().includes(filterValue)
@@ -147,6 +149,9 @@ class Candidates extends React.Component {
                     {candidate.profession}
                   </TableRowColumn>
                   <TableRowColumn>
+                    {candidate.level}
+                  </TableRowColumn>
+                  <TableRowColumn>
                     {moment(candidate.date).format("Do MMMM YYYY, h:mm a")}
                   </TableRowColumn>
                   <TableRowColumn>
@@ -195,6 +200,13 @@ class Candidates extends React.Component {
           primary={true}
           disabled={this.state.dialogueBoxId === "-1" || this.state.dialogueBoxId === "new"}
           style={{marginLeft: "20px"}}
+          label="Interview"
+          onTouchTap={() => this.setState({interviewScreen: true})}
+        />
+        <FlatButton
+          primary={true}
+          disabled={this.state.dialogueBoxId === "-1" || this.state.dialogueBoxId === "new"}
+          style={{marginLeft: "20px"}}
           label="edit"
           onTouchTap={() => this.setState({isDialogueBoxActive: true})}
         />
@@ -210,6 +222,20 @@ class Candidates extends React.Component {
           (() => {
             if (this.state.isDialogueBoxActive) {
               return <CandidateChange />
+            }
+          })()
+        }
+        {
+          (() => {
+            if (this.state.interviewScreen) {
+              return (
+                <Dialog
+                  title="Interview Screen"
+                  open={this.state.interviewScreen}
+                >
+                  <CandidateInterviewHomepage />
+                </Dialog>
+              )
             }
           })()
         }
