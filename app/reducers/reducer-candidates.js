@@ -45,31 +45,31 @@ const initialState =   [
     }
   ]
 
-export default function(state = initialState, action) {
+export default function(candidates = initialState, action) {
   switch(action.type) {
     case "CANDIDATE_CHANGE":
       const changedCandidate = Object.assign({}, {
-        ..._.find(state, {id: action.payload.id}),
+        ..._.find(candidates, {id: action.payload.id}),
         name: action.payload.name,
         profession: action.payload.profession,
         status: action.payload.status,
         date: action.payload.date
       });
-      const index = _.findIndex(state, {id: changedCandidate.id});
-      const newState = state.slice();
+      const index = _.findIndex(candidates, {id: changedCandidate.id});
+      const newState = candidates.slice();
       newState[index] = changedCandidate;
       return newState;
       break;
     case "ADD_CANDIDATE":
-      return [...state, action.payload];
+      return [...candidates, action.payload];
       break;
     case "DELETE_CANDIDATE":
       const {id} = action.payload;
-      const deleteIndex = _.findIndex(state, {id: id});
-      let _newState = state.slice();
+      const deleteIndex = _.findIndex(candidates, {id: id});
+      let _newState = candidates.slice();
       _newState.splice(deleteIndex, 1);
       return _newState;
       break;
   }
-  return state;
+  return candidates;
 }
