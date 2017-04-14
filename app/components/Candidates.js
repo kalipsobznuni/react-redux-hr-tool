@@ -230,6 +230,7 @@ class Candidates extends React.Component {
             if (this.state.interviewScreen) {
               return (
                 <Dialog
+                  autoScrollBodyContent={true}
                   title="Interview Screen"
                   open={this.state.interviewScreen}
                 >
