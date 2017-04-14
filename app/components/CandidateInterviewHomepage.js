@@ -1,6 +1,6 @@
 import React from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import Candidates from './Candidate';
+import Candidates from './Candidates';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import {orange500, blue500} from 'material-ui/styles/colors'
