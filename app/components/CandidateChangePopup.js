@@ -113,47 +113,45 @@ export default class CandidateChangePopup extends React.PureComponent {
     ];
 
     return (
-      <div>
-        <Dialog
-          title="Change canidate info"
-          actions={actions}
-          modal={false}
-          open={true}
-          onRequestClose={closeDialogueBox}
-        >
-          <TextField
-            name="name"
-            fullWidth={true}
-            floatingLabelText="Name"
-            value={this.state.name}
-            onChange={this.changeName}
-          />
-          <RenderProfessions />
-          <RenderLevels />
-          <RenderStatuses />
-          <DatePicker
-            hintText="Select Interview Date"
-            mode="landscape"
-            value={this.state.date}
-            onChange={(e, newDate) => {
-              const o = this.state.date;
-              const n = newDate;
-              const date = new Date(n.getFullYear(), n.getMonth(), n.getDate(), o.getHours(), o.getMinutes());
-              this.setState({date})
-            }}
-          />
-          <TimePicker
-            hintText="Select Interview Time"
-            value={this.state.date}
-            onChange={(e, newTime) => {
-              const o = this.state.date;
-              const n = newTime;
-              const date = new Date(o.getFullYear(), o.getMonth(), o.getDate(), n.getHours(), n.getMinutes());
-              this.setState({date})
-            }}
-          />
-        </Dialog>
-      </div>
+      <Dialog
+        title="Change canidate info"
+        actions={actions}
+        modal={false}
+        open={true}
+        onRequestClose={closeDialogueBox}
+      >
+        <TextField
+          name="name"
+          fullWidth={true}
+          floatingLabelText="Name"
+          value={this.state.name}
+          onChange={this.changeName}
+        />
+        <RenderProfessions />
+        <RenderLevels />
+        <RenderStatuses />
+        <DatePicker
+          hintText="Select Interview Date"
+          mode="landscape"
+          value={this.state.date}
+          onChange={(e, newDate) => {
+            const o = this.state.date;
+            const n = newDate;
+            const date = new Date(n.getFullYear(), n.getMonth(), n.getDate(), o.getHours(), o.getMinutes());
+            this.setState({date})
+          }}
+        />
+        <TimePicker
+          hintText="Select Interview Time"
+          value={this.state.date}
+          onChange={(e, newTime) => {
+            const o = this.state.date;
+            const n = newTime;
+            const date = new Date(o.getFullYear(), o.getMonth(), o.getDate(), n.getHours(), n.getMinutes());
+            this.setState({date})
+          }}
+        />
+      </Dialog>
     );
   }
 }

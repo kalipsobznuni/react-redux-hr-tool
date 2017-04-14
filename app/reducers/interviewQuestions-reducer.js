@@ -30,6 +30,9 @@ const defQuestions = {
     Senior: [
       "dude",
     ]
+  },
+  Engineer: {
+    Junior: []
   }
 }
 

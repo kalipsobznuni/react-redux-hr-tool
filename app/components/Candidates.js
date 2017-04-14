@@ -23,6 +23,7 @@ function mapStateToProps(state) {
   return (
     {
       candidates: state.candidates,
+      questions: state.questions
     }
   )
 }
@@ -49,6 +50,14 @@ class Candidates extends React.Component {
 
   closeDialogueBox = () => {
     this.setState({isDialogueBoxActive: false});
+  }
+
+  closeInterviewScreen = () => {
+    this.setState({interviewScreen: false});
+  }
+
+  saveInterview = () => {
+    console.log("saved")
   }
 
   saveChangedCandidate = (candidate, isNew) => {
@@ -92,6 +101,7 @@ class Candidates extends React.Component {
   render() {
     const {candidates,filterValue} = this.state;
     const header =  ["Name", "Profession", "Level", "Date", "Status"];
+    const candidate =  _.find(this.state.candidates, {id: this.state.dialogueBoxId});
     const filterCandidates = candidates.filter((c) => {
       return header.some(i => {
         return c[i.toLowerCase()].toString().toLowerCase().includes(filterValue)
@@ -171,7 +181,7 @@ class Candidates extends React.Component {
           closeDialogueBox={this.closeDialogueBox}
           saveChangedCandidate={this.saveChangedCandidate}
           candidate={
-            _.find(this.state.candidates, {id: this.state.dialogueBoxId})
+            candidate
            || {
             id: uuid(), name: "", profession: "", status: "", isNew: true
           }}
@@ -179,6 +189,16 @@ class Candidates extends React.Component {
       );
     };
 
+    const CandidateInterview = () => {
+      return (
+        <CandidateInterviewHomepage
+          closeInterviewScreen={this.closeInterviewScreen}
+          candidate={candidate}
+          saveInterview={this.saveInterview}
+          questions={this.props.questions[candidate.profession][candidate.level]}
+        />
+      )
+    };
 
     return(
       <div>
@@ -228,15 +248,7 @@ class Candidates extends React.Component {
         {
           (() => {
             if (this.state.interviewScreen) {
-              return (
-                <Dialog
-                  autoScrollBodyContent={true}
-                  title="Interview Screen"
-                  open={this.state.interviewScreen}
-                >
-                  <CandidateInterviewHomepage />
-                </Dialog>
-              )
+              return <CandidateInterview />
             }
           })()
         }
