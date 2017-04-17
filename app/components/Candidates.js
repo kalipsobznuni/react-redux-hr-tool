@@ -26,7 +26,7 @@ function mapStateToProps(state) {
   )
 }
 
-class Candidates extends React.Component {
+class Candidates extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -36,10 +36,6 @@ class Candidates extends React.Component {
       filterValue: "",
       interviewScreen: false
     }
-  }
-
-  componentWillReceiveProps(newProps) {
-    this.setState({candidates: newProps.candidates})
   }
 
   showCandidateDialogue = (dialogueBoxId) =>  {

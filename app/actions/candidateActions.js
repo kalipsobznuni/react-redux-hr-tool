@@ -35,4 +35,14 @@ const deleteCandidate = (id) => {
   }
 }
 
-export {addCandidate, candidateChange, deleteCandidate};
+const interviewAnswer = (answers, id) => {
+  return {
+    type: "INTERVIEW_ANSWER",
+    payload: {
+      answers: answers,
+      id: id
+    }
+  }
+}
+
+export {addCandidate, candidateChange, deleteCandidate, interviewAnswer};
