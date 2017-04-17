@@ -1,6 +1,5 @@
 import React from 'react';
-import {changeQuestion, addQuestion, removeQuestion} from '../actions/interviewQuestions';
-import {addProfession, removeProfession} from '../actions/add-removePosition';
+import {changeQuestion, addQuestion, removeQuestion, addProfession, removeProfession} from '../actions/questionsActions';
 import {connect} from 'react-redux';
 import TextField from 'material-ui/TextField';
 import DropDownMenu from 'material-ui/DropDownMenu';

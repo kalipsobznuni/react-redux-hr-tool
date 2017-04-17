@@ -15,9 +15,7 @@ import Dialog from 'material-ui/Dialog';
 import CandidateChangePopup from './CandidateChangePopup';
 import CandidateInterviewHomepage from './CandidateInterviewHomepage';
 
-import candidateChange from '../actions/candidateChange';
-import addCandidate from '../actions/addCandidate';
-import deleteCandidate from '../actions/deleteCandidate';
+import {candidateChange, addCandidate, deleteCandidate} from '../actions/candidateActions';
 
 function mapStateToProps(state) {
   return (

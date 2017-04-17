@@ -17,7 +17,7 @@ export default class CandidateChangePopup extends React.PureComponent {
       status: candidate.status,
       isNew: candidate.isNew || false,
       date: candidate.date || new Date(),
-      level: candidate.level || "Intern"
+      level: candidate.level
     }
   }
 
