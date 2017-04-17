@@ -1,39 +1,48 @@
+import uuid from 'uuid/v4';
+
 const defQuestions = {
   Developer: {
     Intern: [
-      "Why Do you Want to Work as a Developer at our Company?",
-      "Can you name different measures to guarantee correctness of data entry?",
+      {
+        question: "Why Do you Want to Work as a Developer at our Company?",
+        id: uuid()
+      },
+      {
+        question: "Can you name different measures to guarantee correctness of data entry?",
+        id: uuid()
+      },
     ],
     Junior: [
-      "Can you name different measures to guarantee correctness of data entry?",
-      "Can you name different techniques for prototyping an application?",
+      {
+        question: "Can you name different measures to guarantee correctness of data entry?",
+        id: uuid()
+      },
+      {
+        question: "Can you name different techniques for prototyping an application?",
+        id: uuid()
+      },
     ],
     Middle: [
-      "Can you name different techniques for prototyping an application?",
-      "How do you manage conflicts in a web application when different people are editing the same data?",
+      {
+        question: "Can you name different techniques for prototyping an application?",
+        id: uuid()
+      },
+      {
+        question: "How do you manage conflicts in a web application when different people are editing the same data?",
+        id: uuid()
+      },
     ],
     Senior: [
-      "How do you manage conflicts in a web application when different people are editing the same data?",
-      "How do you make sure that your code can handle different kinds of error situations?",
+      {
+        question: "How do you manage conflicts in a web application when different people are editing the same data?",
+        id: uuid()
+      },
+      {
+        question: "How do you make sure that your code can handle different kinds of error situations?",
+        id: uuid()
+      },
     ]
   },
-  Designer: {
-    Intern: [
-      "Bla bla bla",
-    ],
-    Junior: [
-      "raxaxa",
-    ],
-    Middle: [
-      "haha",
-    ],
-    Senior: [
-      "dude",
-    ]
-  },
-  Engineer: {
-    Junior: []
-  }
 }
 
 export default function(questions = defQuestions, action) {

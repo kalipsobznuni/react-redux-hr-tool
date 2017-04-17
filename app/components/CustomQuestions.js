@@ -85,13 +85,13 @@ class CustomQuestions extends React.PureComponent {
             }}
             style={{marginBottom: "20px"}}
           />
-          {questions.map((question, index) => {
+          {questions.map(question => {
             return (
-              <div key={index}>
+              <div key={question.id}>
                 <TextField
-                  name={"question" + index}
+                  name={question.id}
                   style={{marginTop: "10px", marginLeft: "10px", width: "80%"}}
-                  value={question}
+                  value={question.question}
                   onChange={
                     (e) => {
                       this.props.changeQuestion({
@@ -121,13 +121,21 @@ class CustomQuestions extends React.PureComponent {
       )
     }
 
+    const RenderQuestionEdit = () => {
+      return (
+        <div>
+          Select a question to edit
+        </div>
+      )
+    }
+
     return (
       <div style={{display: "flex"}}>
         <div style={{width: "50%"}}>
           <RenderQuestonList />
         </div>
         <div style={{width: "50%"}}>
-          hello
+          <RenderQuestionEdit />
         </div>
       </div>
     )
