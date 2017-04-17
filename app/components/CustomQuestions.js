@@ -65,57 +65,70 @@ class CustomQuestions extends React.PureComponent {
       )
     };
 
-    return (
-      <div>
-        <RenderProfessions />
-        <RenderLevels />
-        <br/>
-        <TextField
-          value={this.state.addProfession}
-          floatingLabelText="Add a new profession"
-          onChange={(e) => this.setState({addProfession: e.target.value})}
-        />
-        <FlatButton
-          primary={true}
-          label="Save"
-          onTouchTap={() => {
-            this.props.addProfession(this.state.addProfession);
-            this.setState({addProfession: ""})
-          }}
-          style={{marginBottom: "20px"}}
-        />
-        {questions.map((question, index) => {
-          return (
-            <div key={index}>
-              <TextField
-                name={"question" + index}
-                style={{marginTop: "10px", marginLeft: "10px", width: "80%"}}
-                value={question}
-                onChange={
-                  (e) => {
-                    this.props.changeQuestion({
-                      profession: this.state.profession,
-                      level: this.state.level,
-                      question:e.target.value,
-                      index: index
-                    })
+    const RenderQuestonList = () => {
+      return (
+        <div>
+          <RenderProfessions />
+          <RenderLevels />
+          <br/>
+          <TextField
+            value={this.state.addProfession}
+            floatingLabelText="Add a new profession"
+            onChange={(e) => this.setState({addProfession: e.target.value})}
+          />
+          <FlatButton
+            primary={true}
+            label="Save"
+            onTouchTap={() => {
+              this.props.addProfession(this.state.addProfession);
+              this.setState({addProfession: ""})
+            }}
+            style={{marginBottom: "20px"}}
+          />
+          {questions.map((question, index) => {
+            return (
+              <div key={index}>
+                <TextField
+                  name={"question" + index}
+                  style={{marginTop: "10px", marginLeft: "10px", width: "80%"}}
+                  value={question}
+                  onChange={
+                    (e) => {
+                      this.props.changeQuestion({
+                        profession: this.state.profession,
+                        level: this.state.level,
+                        question:e.target.value,
+                        index: index
+                      })
+                    }
                   }
-                }
-              />
-              <FlatButton
-                onTouchTap={() => this.props.removeQuestion(this.state.profession, this.state.level, index)}
-                label="delete"
-              />
-            </div>
-          )
-        })
-      }
-      <FlatButton
-        style={{marginTop: "20px"}}
-        primary={true}
-        label="add question"
-        onTouchTap={() => this.props.addQuestion(this.state.profession, this.state.level)}
-      />
+                />
+                <FlatButton
+                  onTouchTap={() => this.props.removeQuestion(this.state.profession, this.state.level, index)}
+                  label="delete"
+                />
+              </div>
+            )
+          })
+        }
+        <FlatButton
+          style={{marginTop: "20px"}}
+          primary={true}
+          label="add question"
+          onTouchTap={() => this.props.addQuestion(this.state.profession, this.state.level)}
+        />
+        </div>
+      )
+    }
+
+    return (
+      <div style={{display: "flex"}}>
+        <div style={{width: "50%"}}>
+          <RenderQuestonList />
+        </div>
+        <div style={{width: "50%"}}>
+          hello
+        </div>
       </div>
     )
   }
