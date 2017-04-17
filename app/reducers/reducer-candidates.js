@@ -83,15 +83,16 @@ const interviewAnswer = (candidates, action) => {
 };
 
 export default function(candidates = initialState, action) {
+  const candidatesCopy = candidates.slice();
   switch(action.type) {
     case "CANDIDATE_CHANGE":
-      return candidateChange(candidates, action);
+      return candidateChange(candidatesCopy, action);
     case "ADD_CANDIDATE":
       return [...candidates, action.payload];
     case "DELETE_CANDIDATE":
-      return deleteCandidate(candidates, action);
+      return deleteCandidate(candidatesCopy, action);
     case "INTERVIEW_ANSWER":
-      return interviewAnswer(candidates, action);
+      return interviewAnswer(candidatesCopy, action);
   };
   return candidates;
 }

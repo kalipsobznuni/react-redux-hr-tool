@@ -38,6 +38,10 @@ class Candidates extends React.PureComponent {
     }
   }
 
+  componentWillReceiveProps(props) {
+    this.setState({candidates: props.candidates});
+  }
+
   showCandidateDialogue = (dialogueBoxId) =>  {
     this.setState({dialogueBoxId});
   }
