@@ -6,7 +6,6 @@ import {orange500, blue500} from 'material-ui/styles/colors'
 import TextField from 'material-ui/TextField';
 import Timer from 'react-timer';
 import Dialog from 'material-ui/Dialog';
-import '../styles/frontpage.sass';
 
 class CandidateInterviewHomepage extends React.PureComponent {
   constructor(props){
@@ -59,6 +58,15 @@ class CandidateInterviewHomepage extends React.PureComponent {
       />
     ];
 
+    const AdditionalComments = () => {
+      return (
+        <TextField
+          hintText="Comments"
+          floatingLabelText="Additional Comments"
+          multiLine={true}
+          rows={4}
+        />
+     )}
     return(
       <Dialog
         actions={actions}
@@ -69,6 +77,7 @@ class CandidateInterviewHomepage extends React.PureComponent {
         open={true}
       >
         <Questions />
+        <AdditionalComments />
         <TimerNow />
       </Dialog>
     )
