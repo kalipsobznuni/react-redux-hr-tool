@@ -1,4 +1,5 @@
 import React from 'react';
+import {findIndex} from 'lodash';
 import {changeQuestion, addQuestion, removeQuestion, addProfession, removeProfession} from '../actions/questionsActions';
 import {connect} from 'react-redux';
 import TextField from 'material-ui/TextField';
@@ -20,6 +21,7 @@ class CustomQuestions extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
+      selectedQuestionId: "-1",
       questions: this.props.questions,
       professions: Object.keys(this.props.questions),
       addProfession: "",
@@ -89,6 +91,7 @@ class CustomQuestions extends React.PureComponent {
             return (
               <div key={question.id}>
                 <TextField
+                  onTouchTap={() => this.setState({selectedQuestionId: question.id})}
                   name={question.id}
                   style={{marginTop: "10px", marginLeft: "10px", width: "80%"}}
                   value={question.question}
@@ -122,6 +125,11 @@ class CustomQuestions extends React.PureComponent {
     }
 
     const RenderQuestionEdit = () => {
+      const {selectedQuestionId, profession, level} = this.state;
+      console.log(this.state.questions[this.state.profession])
+      if (selectedQuestionId !== "-1"){
+        const index = findIndex(this.state.questions[profession][level], {id: selectedQuestionId});
+      }
       return (
         <div>
           Select a question to edit
