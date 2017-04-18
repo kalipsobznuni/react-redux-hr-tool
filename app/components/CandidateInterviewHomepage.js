@@ -64,28 +64,29 @@ class CandidateInterviewHomepage extends React.PureComponent {
         />
      )}
     return(
+
       <Dialog
         actions={actions}
         onRequestClose={this.props.closeInterviewScreen}
         modal={false}
         autoScrollBodyContent
         title="Interview Screen"
-        open
-      >
-        <Questions />
-        <AdditionalComments />
-        <button onClick={TimerNow}>
-        This will start a timer
-        </button>
-        {
+        open  >
+        <FlatButton
+            className="forTimer"
+            label="Start the Timer"
+            onClick={TimerNow}
+            />
+              {
           this.state.timerShow ?
           <div>
             <Timer options={OPTIONS} />
           </div>
-          
+
           : null
         }
-
+        <Questions />
+        <AdditionalComments />
       </Dialog>
     )
   }
