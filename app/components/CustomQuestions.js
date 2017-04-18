@@ -98,7 +98,7 @@ class CustomQuestions extends React.PureComponent {
                   onChange={
                     (e) => {
                       const questions = Object.assign({}, this.state.questions);
-                      newQuestions[this.state.profession][this.state.level][index].question = question;
+                      questions[this.state.profession][this.state.level][index].question = e.target.value;
                       this.setState({questions});
                     }
                   }
@@ -123,7 +123,6 @@ class CustomQuestions extends React.PureComponent {
 
     const RenderQuestionEdit = () => {
       const {selectedQuestionId, profession, level} = this.state;
-      console.log(this.state.questions[this.state.profession])
       if (selectedQuestionId !== "-1"){
         const index = findIndex(this.state.questions[profession][level], {id: selectedQuestionId});
       }
