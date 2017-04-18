@@ -8,19 +8,19 @@ import Timer from 'react-timer';
 import Dialog from 'material-ui/Dialog';
 
 class CandidateInterviewHomepage extends React.PureComponent {
-  componentDidMount(){
-    document.getElementsByClassName('react-timer')[0].children[3].innerHTML="start";
+  constructor(){
+    super();
+    this.state={
+      timerShow: false
+    }
   }
 
   render() {
     const OPTIONS = { prefix: 'seconds elapsed!', delay: 1000};
 
     const TimerNow = () => {
-      return (
-        <div>
-          <Timer options={OPTIONS} />
-        </div>
-      )
+      this.setState({timerShow:true})
+      console.log('timer triggered')
     };
 
     const Questions = () => {
@@ -74,7 +74,18 @@ class CandidateInterviewHomepage extends React.PureComponent {
       >
         <Questions />
         <AdditionalComments />
-        <TimerNow />
+        <button onClick={TimerNow}>
+        This will start a timer
+        </button>
+        {
+          this.state.timerShow ?
+          <div>
+            <Timer options={OPTIONS} />
+          </div>
+          
+          : null
+        }
+
       </Dialog>
     )
   }
