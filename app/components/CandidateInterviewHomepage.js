@@ -13,7 +13,7 @@ class CandidateInterviewHomepage extends React.PureComponent {
   }
 
   render() {
-    const OPTIONS = { prefix: 'seconds elapsed!', delay: 100};
+    const OPTIONS = { prefix: 'seconds elapsed!', delay: 1000};
 
     const TimerNow = () => {
       return (
