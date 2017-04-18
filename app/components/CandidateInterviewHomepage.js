@@ -8,10 +8,6 @@ import Timer from 'react-timer';
 import Dialog from 'material-ui/Dialog';
 
 class CandidateInterviewHomepage extends React.PureComponent {
-  constructor(props){
-    super(props);
-  }
-
   componentDidMount(){
     document.getElementsByClassName('react-timer')[0].children[3].innerHTML="start";
   }
@@ -31,12 +27,12 @@ class CandidateInterviewHomepage extends React.PureComponent {
       return (
         <div>
           {
-            this.props.questions.map((question, index) => {
+            this.props.questions.map(question => {
               return (
                 <TextField
-                  key={index}
-                  floatingLabelText={question}
-                  fullWidth={true}
+                  key={question.id}
+                  floatingLabelText={question.question}
+                  fullWidth
                 />
               )
             })
