@@ -87,7 +87,7 @@ class CustomQuestions extends React.PureComponent {
             }}
             style={{marginBottom: "20px"}}
           />
-          {questions.map(question => {
+          {questions.map((question, index) => {
             return (
               <div key={question.id}>
                 <TextField
@@ -97,12 +97,9 @@ class CustomQuestions extends React.PureComponent {
                   value={question.question}
                   onChange={
                     (e) => {
-                      this.props.changeQuestion({
-                        profession: this.state.profession,
-                        level: this.state.level,
-                        question:e.target.value,
-                        index: index
-                      })
+                      const questions = Object.assign({}, this.state.questions);
+                      newQuestions[this.state.profession][this.state.level][index].question = question;
+                      this.setState({questions});
                     }
                   }
                 />

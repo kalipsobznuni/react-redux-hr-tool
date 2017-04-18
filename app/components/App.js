@@ -15,7 +15,7 @@ class App extends React.PureComponent {
 
     return(
       <div>
-        <Candidates />
+        <CustomQuestions />
       </div>
     )
   }

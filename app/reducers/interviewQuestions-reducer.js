@@ -48,11 +48,9 @@ const defQuestions = {
 export default function(questions = defQuestions, action) {
   switch (action.type) {
     case "CHANGE_QUESTIONS":
-      const newQuestions = Object.assign({}, {
-        ...questions,
-      });
+      const newQuestions = Object.assign({}, questions);
       const {profession, level, index, question} = action.payload;
-      newQuestions[profession][level][index] = question;
+      newQuestions[profession][level][index].question = question;
       return newQuestions;
     case "ADD_QUESTION":
       const addQuestion = Object.assign({}, {...questions});
